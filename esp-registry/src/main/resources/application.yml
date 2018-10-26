@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: esp-registry
+
+server:
+  port: ${CFG_EUREKA_PORT:8761}
+
+eureka:
+  instance:
+    hostname: ${CFG_EUREKA_HOST:localhost}
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+  server:
+    waitTimeInMsWhenSyncEmpty: 0

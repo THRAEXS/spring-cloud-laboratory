@@ -8,4 +8,4 @@ Enterprise Service Platform Framework
 
 - esp-config
 
-- esp-getway
+- esp-gateway
