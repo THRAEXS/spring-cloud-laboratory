@@ -12,4 +12,6 @@
 
     <artifactId>gateway</artifactId>
     <packaging>jar</packaging>
+
+    <name>Gateway</name>
 </project>

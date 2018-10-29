@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: esp-gateway
+
+server:
+  port: ${CFG_GATEWAY_PORT:8765}
