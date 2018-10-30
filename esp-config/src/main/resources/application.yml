@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: esp-config
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/spring-cloud-samples/config-repo
+  security:
+    user:
+      password: 123456
+
+server:
+  port: ${CFG_CONFIG_PORT:8750}
+
+eureka:
+  instance:
+    instanceId: ${spring.application.name}:${CFG_CONFIG_HOST:localhost}:${server.port}
+  client:
+    serviceUrl:
+      defaultZone: http://${CFG_EUREKA_HOST:localhost}:${CFG_EUREKA_PORT:8761}/eureka/

@@ -4,3 +4,16 @@ spring:
 
 server:
   port: ${CFG_GATEWAY_PORT:8765}
+
+eureka:
+  instance:
+    instanceId: ${spring.application.name}:${CFG_GATEWAY_HOST:localhost}:${server.port}
+  client:
+    serviceUrl:
+      defaultZone: http://${CFG_EUREKA_HOST:localhost}:${CFG_EUREKA_PORT:8761}/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
