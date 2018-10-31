@@ -1,6 +1,16 @@
 spring:
   application:
     name: esp-gateway
+  cloud:
+    gateway:
+      default-filters:
+      - StripPrefix=2
+      routes:
+      - id: route-esp-admin
+        uri: lb://esp-admin
+        predicates:
+        - Path=/api/admin/**
+
 
 server:
   port: ${CFG_GATEWAY_PORT:8765}
@@ -17,3 +27,7 @@ management:
     web:
       exposure:
         include: "*"
+
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE

@@ -6,9 +6,6 @@ spring:
       server:
         git:
           uri: https://github.com/spring-cloud-samples/config-repo
-  security:
-    user:
-      password: 123456
 
 server:
   port: ${CFG_CONFIG_PORT:8750}
