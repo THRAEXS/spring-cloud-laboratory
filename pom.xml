@@ -36,6 +36,7 @@
     <modules>
         <module>fr-registry</module>
         <module>fr-config</module>
+        <module>fr-gateway</module>
     </modules>
 
     <dependencyManagement>

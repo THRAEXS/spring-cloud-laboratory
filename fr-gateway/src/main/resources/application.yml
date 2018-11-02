@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: fr-gateway
+
+server:
+  port: 8083
+
+eureka:
+  instance:
+    instanceId: ${spring.application.name}:${spring.cloud.client.hostname}:${server.port}
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8081/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
