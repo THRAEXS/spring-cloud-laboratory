@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: sys-admin
+
+server:
+  port: 8084
+
+eureka:
+  instance:
+    instanceId: ${spring.application.name}:${spring.cloud.client.hostname}:${server.port}
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8081/eureka/

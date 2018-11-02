@@ -37,6 +37,7 @@
         <module>fr-registry</module>
         <module>fr-config</module>
         <module>fr-gateway</module>
+        <module>sys-admin</module>
     </modules>
 
     <dependencies>
