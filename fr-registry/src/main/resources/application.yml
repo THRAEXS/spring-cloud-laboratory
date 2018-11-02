@@ -1,12 +1,13 @@
-server:
-  port: 8081
 spring:
   application:
     name: fr-registry
 
+server:
+  port: 8081
+
 eureka:
   instance:
-    hostname: localhost
+    hostname: ${spring.cloud.client.hostname}
   client:
     registerWithEureka: false
     fetchRegistry: false
