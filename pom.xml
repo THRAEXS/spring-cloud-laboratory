@@ -33,6 +33,10 @@
         <relativePath/>
     </parent>
 
+    <modules>
+        <module>fr-registry</module>
+    </modules>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
