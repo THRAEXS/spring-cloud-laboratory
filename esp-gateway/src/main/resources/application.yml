@@ -10,6 +10,13 @@ spring:
         uri: lb://esp-admin
         predicates:
         - Path=/api/admin/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            allowCredentials: true
 
 server:
   port: ${CFG_GATEWAY_PORT:8765}
