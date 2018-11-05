@@ -7,7 +7,7 @@ server:
 
 eureka:
   instance:
-    hostname: ${CFG_EUREKA_HOST:localhost}
+    hostname: ${spring.cloud.client.hostname}
   client:
     registerWithEureka: false
     fetchRegistry: false

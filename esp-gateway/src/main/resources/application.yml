@@ -23,10 +23,10 @@ server:
 
 eureka:
   instance:
-    instanceId: ${spring.application.name}:${CFG_GATEWAY_HOST:localhost}:${server.port}
+    instanceId: ${spring.application.name}:${spring.cloud.client.hostname}:${server.port}
   client:
     serviceUrl:
-      defaultZone: http://${CFG_EUREKA_HOST:localhost}:${CFG_EUREKA_PORT:8761}/eureka/
+      defaultZone: http://${CFG_EUREKA_HOST:${spring.cloud.client.hostname}}:${CFG_EUREKA_PORT:8761}/eureka/
 
 management:
   endpoints:
