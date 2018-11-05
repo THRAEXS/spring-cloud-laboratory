@@ -5,6 +5,7 @@ spring:
     config:
       server:
         git:
+          # Filesystem: cd docs; tar -xf config-repo.tar
           uri: file://${user.dir}/docs/config-repo
           searchPaths: '{application}'
 
@@ -17,9 +18,3 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://${spring.cloud.client.hostname}:8081/eureka/
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
