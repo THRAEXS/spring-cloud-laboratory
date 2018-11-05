@@ -19,7 +19,7 @@ eureka:
     instanceId: ${spring.application.name}:${spring.cloud.client.hostname}:${server.port}
   client:
     serviceUrl:
-      defaultZone: http://${CFG_REGISTRY_HOST:${spring.cloud.client.hostname}}:${CFG_REGISTRY_PORT:8081}/eureka/
+      defaultZone: http://${spring.cloud.client.hostname}:8081/eureka/
 
 management:
   endpoints:

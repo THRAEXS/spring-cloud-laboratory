@@ -5,7 +5,8 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/spring-cloud-samples/config-repo
+          uri: file://${user.dir}/docs/config-repo
+          searchPaths: '{application}'
 
 server:
   port: 8082
@@ -15,4 +16,10 @@ eureka:
     instanceId: ${spring.application.name}:${spring.cloud.client.hostname}:${server.port}
   client:
     serviceUrl:
-      defaultZone: http://${CFG_REGISTRY_HOST:${spring.cloud.client.hostname}}:${CFG_REGISTRY_PORT:8081}/eureka/
+      defaultZone: http://${spring.cloud.client.hostname}:8081/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
