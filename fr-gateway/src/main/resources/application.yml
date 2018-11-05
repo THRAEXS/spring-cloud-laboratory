@@ -1,6 +1,15 @@
 spring:
   application:
     name: fr-gateway
+  cloud:
+    gateway:
+      defaultFilters:
+      - StripPrefix=2
+      routes:
+      - id: route-sys-admin
+        uri: lb://sys-admin
+        predicates:
+        - Path=/api/admin/**
 
 server:
   port: 8083
@@ -10,7 +19,7 @@ eureka:
     instanceId: ${spring.application.name}:${spring.cloud.client.hostname}:${server.port}
   client:
     serviceUrl:
-      defaultZone: http://localhost:8081/eureka/
+      defaultZone: http://${CFG_REGISTRY_HOST:${spring.cloud.client.hostname}}:${CFG_REGISTRY_PORT:8081}/eureka/
 
 management:
   endpoints:

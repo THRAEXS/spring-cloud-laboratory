@@ -50,6 +50,13 @@ public class UserController {
         return new ResponseEntity<>(new User(id, DEF_NAME, DEF_ACCOUNT, DEF_PASSWORD), HttpStatus.OK);
     }
 
+    /**
+     * add(@RequestBody User user)配合[data]
+     * add(User user)配合[params]
+     *
+     * @param user
+     * @return
+     */
     @PostMapping("/add")
     public ResponseEntity add(@RequestBody User user) {
         log.info("PostMapping add ------------");
