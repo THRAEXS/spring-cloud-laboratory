@@ -2,8 +2,6 @@
 
 Enterprise Service Platform Framework
 
-- esp-common
-
 - esp-registry
 
 - esp-config
