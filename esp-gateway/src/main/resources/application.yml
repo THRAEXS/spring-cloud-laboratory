@@ -19,14 +19,14 @@ spring:
             allowCredentials: true
 
 server:
-  port: ${CFG_GATEWAY_PORT:8765}
+  port: 8765
 
 eureka:
   instance:
     instanceId: ${spring.application.name}:${spring.cloud.client.hostname}:${server.port}
   client:
     serviceUrl:
-      defaultZone: http://${CFG_EUREKA_HOST:${spring.cloud.client.hostname}}:${CFG_EUREKA_PORT:8761}/eureka/
+      defaultZone: http://${spring.cloud.client.hostname}:8761/eureka/
 
 management:
   endpoints:

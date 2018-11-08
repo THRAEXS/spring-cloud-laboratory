@@ -3,7 +3,7 @@ spring:
     name: esp-registry
 
 server:
-  port: ${CFG_EUREKA_PORT:8761}
+  port: 8761
 
 eureka:
   instance:

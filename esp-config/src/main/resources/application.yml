@@ -7,11 +7,11 @@ spring:
         git:
           uri: http://10.27.213.70/esp/esp-cloud-config.git
           searchPaths: '{application}'
-          username: '{cipher}3795668e0b759504df110ea0433beccd4b942f481ac9ba7f9466e7b3f4991a9e'
-          password: '{cipher}d36f3c490a710cb3a7cf5082849c9f74fb153f9ba164b12bada070e120b6653d'
+          username: general
+          password: General@413
 
 server:
-  port: ${CFG_CONFIG_PORT:8750}
+  port: 8750
 
 eureka:
   instance:
