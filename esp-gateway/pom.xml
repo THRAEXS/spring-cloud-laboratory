@@ -10,11 +10,10 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>gateway</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>esp-gateway</artifactId>
 
     <name>Gateway</name>
-    <description>Spring Cloud Gateway</description>
+    <description>Spring Cloud Gateway Server</description>
 
     <dependencies>
         <dependency>
