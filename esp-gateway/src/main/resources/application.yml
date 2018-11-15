@@ -23,10 +23,10 @@ server:
 
 eureka:
   instance:
-    instanceId: ${spring.application.name}:${spring.cloud.client.hostname}:${server.port}
+    instanceId: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
   client:
     serviceUrl:
-      defaultZone: http://${spring.cloud.client.hostname}:8761/eureka/
+      defaultZone: http://${spring.cloud.client.ip-address}:8761/eureka/
 
 management:
   endpoints:

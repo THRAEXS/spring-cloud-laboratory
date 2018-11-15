@@ -7,7 +7,7 @@ server:
 
 eureka:
   instance:
-    hostname: ${spring.cloud.client.hostname}
+    hostname: ${spring.cloud.client.ip-address}
   client:
     registerWithEureka: false
     fetchRegistry: false
