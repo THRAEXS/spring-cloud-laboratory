@@ -13,7 +13,7 @@ import java.util.List;
  * @Date 2018/11/22 15:18
  */
 @RestController
-@RequestMapping("order")
+@RequestMapping("detail")
 public class OrderController {
 
     @Value("${app.order.name}")
