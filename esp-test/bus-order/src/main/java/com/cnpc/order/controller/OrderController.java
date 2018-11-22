@@ -1,4 +1,4 @@
-package com.cnpc.admin.controller;
+package com.cnpc.order.controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,13 +10,13 @@ import java.util.List;
 
 /**
  * @Author 鬼王
- * @Date 2018/11/22 11:09
+ * @Date 2018/11/22 15:18
  */
 @RestController
-@RequestMapping("user")
-public class UserController {
+@RequestMapping("order")
+public class OrderController {
 
-    @Value("${app.user.name}")
+    @Value("${app.order.name}")
     private String name;
 
     @GetMapping("get")

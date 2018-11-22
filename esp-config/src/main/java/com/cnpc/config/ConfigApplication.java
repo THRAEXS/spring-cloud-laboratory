@@ -2,7 +2,6 @@ package com.cnpc.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.config.server.EnableConfigServer;
 
 /**
@@ -10,7 +9,6 @@ import org.springframework.cloud.config.server.EnableConfigServer;
  * @Date 2018/10/26 16:43
  */
 @SpringBootApplication
-@EnableDiscoveryClient
 @EnableConfigServer
 public class ConfigApplication {
 
