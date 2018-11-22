@@ -6,8 +6,12 @@ spring:
       default-filters:
       - StripPrefix=2
       routes:
-      - id: route-esp-admin
-        uri: lb://esp-admin
+#      - id: route-esp-admin
+#        uri: lb://esp-admin
+#        predicates:
+#        - Path=/api/admin/**
+      - id: route-bus-admin
+        uri: lb://bus-admin
         predicates:
         - Path=/api/admin/**
       globalcors:

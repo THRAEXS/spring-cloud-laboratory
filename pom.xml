@@ -37,6 +37,7 @@
         <module>esp-registry</module>
         <module>esp-config</module>
         <module>esp-gateway</module>
+        <module>esp-test</module>
     </modules>
 
     <dependencyManagement>

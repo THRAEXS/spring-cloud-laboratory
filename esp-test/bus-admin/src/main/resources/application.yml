@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: bus-admin
+
+server:
+  port: 8083
+
+eureka:
+  instance:
+    instanceId: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+  client:
+    serviceUrl:
+      defaultZone: http://${spring.cloud.client.ip-address}:8761/eureka/
+
+user.name: THRAEX
