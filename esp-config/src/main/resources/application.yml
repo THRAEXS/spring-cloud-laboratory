@@ -1,14 +1,18 @@
 spring:
   application:
     name: esp-config
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/riped-config?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: mysql
+  profiles:
+    active: jdbc
   cloud:
     config:
       server:
-        git:
-          uri: http://10.27.213.70/esp/esp-cloud-config.git
-          searchPaths: '{application}'
-          username: general
-          password: General@413
+        jdbc:
+          sql: SELECT `KEY`, `VALUE` from PROPERTIES where APPLICATION=? and PROFILE=? and LABEL=?
 
 server:
   port: 8750
@@ -17,5 +21,6 @@ eureka:
   instance:
     instanceId: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
   client:
+    enabled: false
     serviceUrl:
       defaultZone: http://${CFG_EUREKA_HOST:${spring.cloud.client.ip-address}}:${CFG_EUREKA_PORT:8761}/eureka/

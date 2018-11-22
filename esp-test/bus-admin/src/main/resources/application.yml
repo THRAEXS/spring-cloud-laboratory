@@ -11,6 +11,5 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://${spring.cloud.client.ip-address}:8761/eureka/
-    eureka-server-port:
 
 app.user.name: THRAEX
