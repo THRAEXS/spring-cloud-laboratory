@@ -101,10 +101,10 @@ spring:
         uri: lb://esp-food
         predicates:
         - Path=/api/food/**
-      - id: route-esp-XXX
-        uri: lb://esp-XXX
+      - id: route-esp-xxx
+        uri: lb://esp-xxx
         predicates:
-        - Path=/api/XXX/**
+        - Path=/api/xxx/**
 ```
 
 ## Development
