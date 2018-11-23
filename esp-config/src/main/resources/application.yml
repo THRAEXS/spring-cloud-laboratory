@@ -6,13 +6,14 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/riped-config?useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: root
     password: mysql
+    type:
   profiles:
     active: jdbc
   cloud:
     config:
       server:
         jdbc:
-          sql: SELECT `KEY`, `VALUE` from PROPERTIES where APPLICATION=? and PROFILE=? and LABEL=?
+          sql: SELECT `KEY`, `VALUE` FROM PROPERTIES WHERE APPLICATION=? AND PROFILE=? AND LABEL=?
 
 server:
   port: 8750
@@ -20,7 +21,10 @@ server:
 eureka:
   instance:
     instanceId: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+    # 使用IP地址注册，默认为主机名
+    preferIpAddress: true
   client:
-    enabled: false
+    # 禁用Eureka服务发现客户端
+#    enabled: false
     serviceUrl:
       defaultZone: http://${CFG_EUREKA_HOST:${spring.cloud.client.ip-address}}:${CFG_EUREKA_PORT:8761}/eureka/

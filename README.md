@@ -2,6 +2,67 @@
 
 Enterprise Service Platform Framework
 
+## 添加服务
+
+新增服务(esp-xxx)需要进行以下配置:
+
+- `pom.xml`
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-config-client</artifactId>
+    </dependency>
+</dependencies>
+```
+
+- `bootstrap.yml`
+```yaml
+spring:
+  cloud:
+    config:
+      uri: http://${CFG_CONFIG_HOST:${spring.cloud.client.ip-address}}:${CFG_CONFIG_PORT:8750}
+      profile: dev
+```
+
+- `application.yml`
+```yaml
+eureka:
+  instance:
+    instanceId: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+    # 使用IP地址注册，默认为主机名
+    preferIpAddress: true
+  client:
+    # 禁用Eureka服务发现客户端
+#    enabled: false
+    serviceUrl:
+      defaultZone: http://${spring.cloud.client.ip-address}:8761/eureka/
+```
+
+- `esp-gateway/application.yml`
+```yaml
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: route-esp-admin
+        uri: lb://esp-admin
+        predicates:
+        - Path=/api/admin/**
+      - id: route-esp-food
+        uri: lb://esp-food
+        predicates:
+        - Path=/api/food/**
+      - id: route-esp-xxx
+        uri: lb://esp-xxx
+        predicates:
+        - Path=/api/xxx/**
+```
+
 ## Services
 
 参数说明：
@@ -40,6 +101,10 @@ spring:
         uri: lb://esp-food
         predicates:
         - Path=/api/food/**
+      - id: route-esp-XXX
+        uri: lb://esp-XXX
+        predicates:
+        - Path=/api/XXX/**
 ```
 
 ## Development
