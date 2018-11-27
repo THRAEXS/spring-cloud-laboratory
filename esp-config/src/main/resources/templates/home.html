@@ -5,38 +5,74 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/wro.css}">
 </head>
-<body>
+<body id="one">
 
     <div id="header" th:replace="header :: header"></div>
 
     <div class="container-fluid xd-container">
-        <h1>Config Info</h1>
-        <table id='propertiesInfo' class="table table-striped table-hover">
+        <h1>Application Profiles</h1>
+        <table id="propertiesInfo" class="table table-striped table-hover">
             <thead>
-                <tr><th>Application</th><th>Profile</th><th>Label</th><th>Link</th><!--<th>Key</th><th>Value</th>--></tr>
+                <tr><th>Application</th><th>Profile</th><th>Label</th><th>Operations</th></tr>
             </thead>
             <tbody>
-                <tr th:each="p : ${propertiesList}">
+                <tr th:each="p,s : ${propertiesList}">
                     <td th:text="${p.application}"></td>
-                    <!--<td>-->
-                        <!--<span th:text="${p.profile}"></span>[<span th:text="${p.label}"></span>]-->
-                    <!--</td>-->
                     <td th:text="${p.profile}"></td>
                     <td th:text="${p.label}"></td>
-                    <td><a th:href="@{'/cfg/'+${p.id}}" th:text="View" target="_blank"></a></td>
-                    <!--<td th:text="${p.key}"></td>-->
-                    <!--<td th:text="${p.value}"></td>-->
+                    <td style="width: 20%;">
+                        <a th:href="@{${prefix}+'/'+${p.id}}" target="_blank">View</a>
+                        <a href="javascript:void(0);" th:onclick="'form('+${s.index}+')'">Details</a>
+                        <a href="javascript:void(0);" th:onclick="'form('+${s.index}+')'">Edit</a>
+                        <a href="javascript:void(0);" th:onclick="'form('+${s.index}+')'">Delete</a>
+                    </td>
                 </tr>
             </tbody>
         </table>
+
+        <!--<div class="col-lg-4 col-sm-4">-->
+            <!--<th:block th:each="p,s : ${propertiesList}">-->
+                <!--<div class="collapse" th:attr="data-properties-index=${s.index}">-->
+                    <!--<h1 th:text="${p.id}"></h1>-->
+                    <!--<table class="table table-striped table-hover">-->
+                        <!--<thead>-->
+                        <!--<tr><th>Key</th><th>Value</th></tr>-->
+                        <!--</thead>-->
+                        <!--<tbody>-->
+                        <!--<tr th:each="it : ${p.items}">-->
+                            <!--<td th:text="${it.key}" style="width: 50%;"></td>-->
+                            <!--<td th:text="${it.value}" style="width: 50%;"></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td colspan="2" align="right">-->
+                                <!--<a href="javascript:void(0);" th:onclick="'form('+${s.index}+')'">Edit</a>-->
+                                <!--<a href="javascript:void(0);" th:onclick="'form('+${s.index}+')'">Add</a>-->
+                                <!--<a href="javascript:void(0);" th:onclick="'form('+${s.index}+')'">Save</a>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--</tbody>-->
+                    <!--</table>-->
+                <!--</div>-->
+            <!--</th:block>-->
+        <!--</div>-->
     </div>
 
     <script type="text/javascript" th:src="@{/js/wro.js}" ></script>
-    <script type="text/javascript">
-        // $(document).ready(function() {
-        //     $('table.stripeable tr:odd').addClass('odd');
-        //     $('table.stripeable tr:even').addClass('even');
-        // });
+    <script th:inline="javascript">
+        // var pl = [[${propertiesList}]];
+
+        // console.log(typeof pl)
+
+        function form(ind) {
+            console.log($('tr[data-properties-index]'))
+            $('div[data-properties-index]').removeClass('in');
+            $('div[data-properties-index="'+ind+'"]').addClass('in')
+        }
+
+        $(document).ready(function() {
+            $('table.stripeable tr:odd').addClass('odd');
+            $('table.stripeable tr:even').addClass('even');
+        });
     </script>
 </body>
 </html>

@@ -2,13 +2,11 @@ package com.cnpc.config.controller;
 
 import com.cnpc.config.service.ConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @Author 鬼王
@@ -18,17 +16,16 @@ import java.util.Map;
 @RequestMapping("config")
 public class ConfigController {
 
+    @Value("${spring.cloud.config.server.prefix:}")
+    private String PREFIX;
+
     @Autowired
     private ConfigService configService;
 
     @GetMapping
     public String home(Model model) {
-        Map<String, String> obj = new HashMap<>();
-        obj.put("message", "Hello");
-        obj.put("content", "Thymeleaf");
-        model.addAttribute("user", "HANZO");
-        model.addAllAttributes(obj);
         model.addAttribute(configService.findByGroup());
+        model.addAttribute("prefix", PREFIX);
         return "home";
     }
 

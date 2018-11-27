@@ -44,9 +44,6 @@ public class ConfigServiceImpl implements ConfigService {
             result.add(p);
         });
 
-        //result.stream().sorted(Comparator.comparing(Properties::getApplication)).collect(Collectors.toList());
-
-
         return result.stream().sorted(Comparator.comparing(Properties::getApplication)
                 .thenComparing(Properties::getProfile).thenComparing(Properties::getLabel))
                 .collect(Collectors.toList());
