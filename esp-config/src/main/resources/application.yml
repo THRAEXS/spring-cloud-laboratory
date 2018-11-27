@@ -13,7 +13,24 @@ spring:
     config:
       server:
         jdbc:
-          sql: SELECT `KEY`, `VALUE` FROM PROPERTIES WHERE APPLICATION=? AND PROFILE=? AND LABEL=?
+          sql: SELECT `key`, `value` FROM properties WHERE application=? AND profile=? AND label=?
+        prefix: cfg
+  jpa:
+    database: mysql
+    show-sql: true
+
+#  resources:
+#    static-locations: classpath:/static/,classpath:/templates/
+#  mvc:
+#    static-path-pattern: /**
+#spring.resources.chain.strategy.fixed.paths:
+#  resources:
+#    chain:
+#      strategy:
+#        content:
+#          enabled: true
+#        fixed:
+#          paths: /static/
 
 server:
   port: 8750
