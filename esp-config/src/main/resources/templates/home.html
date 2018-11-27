@@ -10,63 +10,65 @@
     <div id="header" th:replace="header :: header"></div>
 
     <div class="container-fluid xd-container">
-        <h1>Application Profiles</h1>
+        <h1>Add Application Profiles</h1>
+        <form id="pform" th:action="@{/config/save}" method="post">
+            <input type="hidden" name="id"/>
+            <table id="propertiesForm" class="table table-striped table-hover">
+                <thead>
+                    <tr><th>Application</th><th>Profile</th><th>Label</th><th>Operations</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="width: 35%;">
+                            <input type="text" style="width: 100%;" name="application"/>
+                        </td>
+                        <td style="width: 25%;">
+                            <input type="text" style="width: 100%;" name="profile"/>
+                        </td>
+                        <td style="width: 25%;">
+                            <input type="text" style="width: 100%;" name="label"/>
+                        </td>
+                        <td style="width: 15%;">
+                            <a href="javascript:void(0);" onclick="javascript:$('form#pform').submit();">Save</a>
+                            <a href="javascript:void(0);" onclick="javascript:$('form#pform input[name]').val('');">Cancel</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+
+        <h1>Application Profiles Info</h1>
         <table id="propertiesInfo" class="table table-striped table-hover">
             <thead>
                 <tr><th>Application</th><th>Profile</th><th>Label</th><th>Operations</th></tr>
             </thead>
             <tbody>
                 <tr th:each="p,s : ${propertiesList}">
-                    <td th:text="${p.application}"></td>
-                    <td th:text="${p.profile}"></td>
-                    <td th:text="${p.label}"></td>
-                    <td style="width: 20%;">
-                        <a th:href="@{${prefix}+'/'+${p.id}}" target="_blank">View</a>
-                        <a href="javascript:void(0);" th:onclick="'form('+${s.index}+')'">Details</a>
-                        <a href="javascript:void(0);" th:onclick="'form('+${s.index}+')'">Edit</a>
-                        <a href="javascript:void(0);" th:onclick="'form('+${s.index}+')'">Delete</a>
+                    <td style="width: 35%;" th:text="${p.application}"></td>
+                    <td style="width: 25%;" th:text="${p.profile}"></td>
+                    <td style="width: 25%;" th:text="${p.label}"></td>
+                    <td style="width: 15%;">
+                        <a th:href="@{/{prefix}/{a}/{p}/{l}(prefix=${prefix},a=${p.application},p=${p.profile},l=${p.label})}" target="_blank">JSON</a>
+                        <a th:href="@{/config/detail/{id}(id=${p.id})}" target="_blank">Detail</a>
+                        <a href="javascript:void(0);" th:onclick="'edit('+${s.index}+')'">Edit</a>
+                        <a th:href="@{/config/delete/{id}(id=${p.id})}">Delete</a>
                     </td>
                 </tr>
             </tbody>
         </table>
-
-        <!--<div class="col-lg-4 col-sm-4">-->
-            <!--<th:block th:each="p,s : ${propertiesList}">-->
-                <!--<div class="collapse" th:attr="data-properties-index=${s.index}">-->
-                    <!--<h1 th:text="${p.id}"></h1>-->
-                    <!--<table class="table table-striped table-hover">-->
-                        <!--<thead>-->
-                        <!--<tr><th>Key</th><th>Value</th></tr>-->
-                        <!--</thead>-->
-                        <!--<tbody>-->
-                        <!--<tr th:each="it : ${p.items}">-->
-                            <!--<td th:text="${it.key}" style="width: 50%;"></td>-->
-                            <!--<td th:text="${it.value}" style="width: 50%;"></td>-->
-                        <!--</tr>-->
-                        <!--<tr>-->
-                            <!--<td colspan="2" align="right">-->
-                                <!--<a href="javascript:void(0);" th:onclick="'form('+${s.index}+')'">Edit</a>-->
-                                <!--<a href="javascript:void(0);" th:onclick="'form('+${s.index}+')'">Add</a>-->
-                                <!--<a href="javascript:void(0);" th:onclick="'form('+${s.index}+')'">Save</a>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-                        <!--</tbody>-->
-                    <!--</table>-->
-                <!--</div>-->
-            <!--</th:block>-->
-        <!--</div>-->
     </div>
 
     <script type="text/javascript" th:src="@{/js/wro.js}" ></script>
     <script th:inline="javascript">
-        // var pl = [[${propertiesList}]];
+        var pl = [[${propertiesList}]];
+        var form = $('form#pform input[name]');
 
-        // console.log(typeof pl)
-
-        function form(ind) {
-            console.log($('tr[data-properties-index]'))
-            $('div[data-properties-index]').removeClass('in');
-            $('div[data-properties-index="'+ind+'"]').addClass('in')
+        function edit(ind) {
+            var pro = pl[ind];
+            for (var i = 0, len = form.length; i < len; i++) {
+                var ele = form[i];
+                ele.value = pro[ele.name];
+            }
         }
 
         $(document).ready(function() {

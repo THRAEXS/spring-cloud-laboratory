@@ -5,10 +5,9 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @Author 鬼王
@@ -16,19 +15,16 @@ import java.util.List;
  */
 @Data
 @Entity
-public class Properties implements Serializable {
+public class KeyValue implements Serializable {
 
     @Id
     @GeneratedValue(generator = "idStrategy")
     @GenericGenerator(name = "idStrategy", strategy = "uuid")
     private String id;
 
-    private String application;
+    private String pid;
 
-    private String profile;
+    private String key;
 
-    private String label;
-
-    @Transient
-    private List<KeyValue> values;
+    private String value;
 }

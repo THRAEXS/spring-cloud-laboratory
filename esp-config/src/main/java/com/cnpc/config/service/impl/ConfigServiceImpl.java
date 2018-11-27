@@ -1,7 +1,9 @@
 package com.cnpc.config.service.impl;
 
 import com.cnpc.config.entity.Properties;
-import com.cnpc.config.repository.ConfigRepository;
+import com.cnpc.config.entity.KeyValue;
+import com.cnpc.config.repository.PropertiesRepository;
+import com.cnpc.config.repository.ValuesRepository;
 import com.cnpc.config.service.ConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -21,11 +23,19 @@ import java.util.stream.Collectors;
 public class ConfigServiceImpl implements ConfigService {
 
     @Autowired
-    private ConfigRepository configRepository;
+    private PropertiesRepository propertiesRepository;
+
+    @Autowired
+    private ValuesRepository valuesRepository;
+
+    @Override
+    public void save(Properties properties) {
+        propertiesRepository.save(properties);
+    }
 
     @Override
     public List<Properties> findAll() {
-        return configRepository.findAll(Sort.by("application", "profile", "label"));
+        return propertiesRepository.findAll(Sort.by("application", "profile", "label"));
     }
 
     @Override
@@ -40,13 +50,18 @@ public class ConfigServiceImpl implements ConfigService {
             p.setApplication(split[0]);
             p.setProfile(split[1]);
             p.setLabel(split[2]);
-            p.setItems(v);
+            //p.setItems(v);
             result.add(p);
         });
 
         return result.stream().sorted(Comparator.comparing(Properties::getApplication)
                 .thenComparing(Properties::getProfile).thenComparing(Properties::getLabel))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<KeyValue> findByPid(String pid) {
+        return valuesRepository.findByPid(pid);
     }
 
 }

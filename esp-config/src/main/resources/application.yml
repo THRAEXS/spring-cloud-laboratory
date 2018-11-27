@@ -6,31 +6,18 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/riped-config?useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: root
     password: mysql
-    type:
   profiles:
     active: jdbc
   cloud:
     config:
       server:
         jdbc:
-          sql: SELECT `key`, `value` FROM properties WHERE application=? AND profile=? AND label=?
+          sql: SELECT `key`, `value` FROM key_value WHERE pid IN (SELECT id FROM properties WHERE application=? AND profile=? AND label=?)
         prefix: cfg
   jpa:
     database: mysql
     show-sql: true
 
-#  resources:
-#    static-locations: classpath:/static/,classpath:/templates/
-#  mvc:
-#    static-path-pattern: /**
-#spring.resources.chain.strategy.fixed.paths:
-#  resources:
-#    chain:
-#      strategy:
-#        content:
-#          enabled: true
-#        fixed:
-#          paths: /static/
 
 server:
   port: 8750
