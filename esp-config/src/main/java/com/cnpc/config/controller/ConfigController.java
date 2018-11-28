@@ -1,5 +1,6 @@
 package com.cnpc.config.controller;
 
+import com.cnpc.config.entity.KeyValue;
 import com.cnpc.config.entity.Properties;
 import com.cnpc.config.service.ConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,26 +47,43 @@ public class ConfigController {
     }
 
     @PostMapping("save/all")
-    public String saveAll(@RequestBody List<Properties> proList) {
-        configService.saveAll(proList);
-        return "redirect:/config";
+    @ResponseBody
+    public ResponseEntity saveAll(@RequestBody List<Properties> proList) {
+        configService.save(proList);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping("delete/{id}")
     public String delete(@PathVariable String id) {
-        configService.deleteProperties(id);
+        configService.delete(id);
         return "redirect:/config";
     }
 
-    @GetMapping("detail/{application}/{profile}/{label}/{pid}")
-    public String detail(@PathVariable String pid,
-                         @PathVariable String application,
-                         @PathVariable String profile,
-                         @PathVariable String label,
-                         Model model) {
-        model.addAttribute(new Properties(pid, application, profile, label));
+    @GetMapping("detail/{pid}")
+    public String detail(@PathVariable String pid, Model model) {
+        model.addAttribute(configService.findById(pid));
         model.addAttribute(configService.findByPid(pid));
         return "detail";
+    }
+
+    @PostMapping("detail/save")
+    @ResponseBody
+    public ResponseEntity<KeyValue> saveKv(KeyValue keyValue) {
+        configService.saveKv(keyValue);
+        return new ResponseEntity(keyValue, HttpStatus.OK);
+    }
+
+    @PostMapping("detail/save/all")
+    @ResponseBody
+    public ResponseEntity saveKvAll(@RequestBody List<KeyValue> kvList) {
+        configService.saveKv(kvList);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("detail/delete/{pid}/{id}")
+    public String deleteKv(@PathVariable String pid, @PathVariable String id) {
+        configService.deleteKv(id);
+        return "redirect:/config/detail/"+pid;
     }
 
 }

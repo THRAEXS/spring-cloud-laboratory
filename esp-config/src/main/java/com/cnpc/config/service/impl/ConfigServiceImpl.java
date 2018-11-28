@@ -1,18 +1,20 @@
 package com.cnpc.config.service.impl;
 
-import com.cnpc.config.entity.Properties;
 import com.cnpc.config.entity.KeyValue;
-import com.cnpc.config.repository.PropertiesRepository;
+import com.cnpc.config.entity.Properties;
 import com.cnpc.config.repository.KeyValueRepository;
+import com.cnpc.config.repository.PropertiesRepository;
 import com.cnpc.config.service.ConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -34,13 +36,21 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     @Override
-    public void saveAll(List<Properties> proList) {
+    public void save(List<Properties> proList) {
         propertiesRepository.saveAll(proList);
     }
 
     @Override
-    public void deleteProperties(String id) {
+    @Transactional
+    public void delete(String id) {
         propertiesRepository.deleteById(id);
+        keyValueRepository.deleteByPid(id);
+    }
+
+    @Override
+    public Properties findById(String id) {
+        Optional<Properties> op = propertiesRepository.findById(id);
+        return op.isPresent()?op.get():null;
     }
 
     @Override
@@ -71,7 +81,22 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public List<KeyValue> findByPid(String pid) {
-        return keyValueRepository.findByPid(pid);
+        return keyValueRepository.findByPidOrderByPkeyAscPvalueAsc(pid);
+    }
+
+    @Override
+    public void saveKv(KeyValue kv) {
+        keyValueRepository.save(kv);
+    }
+
+    @Override
+    public void saveKv(List<KeyValue> kvList) {
+        keyValueRepository.saveAll(kvList);
+    }
+
+    @Override
+    public void deleteKv(String id) {
+        keyValueRepository.deleteById(id);
     }
 
 }

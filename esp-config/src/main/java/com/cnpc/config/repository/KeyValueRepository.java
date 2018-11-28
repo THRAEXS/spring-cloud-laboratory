@@ -11,6 +11,8 @@ import java.util.List;
  */
 public interface KeyValueRepository extends JpaRepository<KeyValue, String> {
 
-    List<KeyValue> findByPid(String pid);
+    List<KeyValue> findByPidOrderByPkeyAscPvalueAsc(String pid);
+
+    void deleteByPid(String pid);
 
 }

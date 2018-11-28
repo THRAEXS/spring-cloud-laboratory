@@ -1,7 +1,7 @@
 package com.cnpc.config.service;
 
-import com.cnpc.config.entity.Properties;
 import com.cnpc.config.entity.KeyValue;
+import com.cnpc.config.entity.Properties;
 
 import java.util.List;
 
@@ -13,14 +13,23 @@ public interface ConfigService {
 
     void save(Properties properties);
 
-    void saveAll(List<Properties> proList);
+    void save(List<Properties> proList);
 
-    void deleteProperties(String id);
+    void delete(String id);
+
+    Properties findById(String id);
 
     List<Properties> findAll();
 
+    @Deprecated
     List<Properties> findByGroup();
 
     List<KeyValue> findByPid(String pid);
+
+    void saveKv(KeyValue kv);
+
+    void saveKv(List<KeyValue> kvList);
+
+    void deleteKv(String id);
 
 }

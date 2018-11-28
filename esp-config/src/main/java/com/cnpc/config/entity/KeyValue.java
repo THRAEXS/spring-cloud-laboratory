@@ -23,7 +23,7 @@ public class KeyValue implements Serializable {
 
     private String pid;
 
-    private String key;
+    private String pkey;
 
-    private String value;
+    private String pvalue;
 }

@@ -12,7 +12,7 @@ spring:
     config:
       server:
         jdbc:
-          sql: SELECT `key`, `value` FROM key_value WHERE pid IN (SELECT id FROM properties WHERE application=? AND profile=? AND label=?)
+          sql: SELECT pkey, pvalue FROM key_value WHERE pid IN (SELECT id FROM properties WHERE application=? AND profile=? AND label=?) ORDER BY pkey, pvalue
         prefix: cfg
   jpa:
     database: mysql

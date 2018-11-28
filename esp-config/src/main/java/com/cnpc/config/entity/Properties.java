@@ -27,13 +27,4 @@ public class Properties implements Serializable {
 
     private String label;
 
-    public Properties() {
-    }
-
-    public Properties(String id, String application, String profile, String label) {
-        this.id = id;
-        this.application = application;
-        this.profile = profile;
-        this.label = label;
-    }
 }
