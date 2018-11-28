@@ -3,7 +3,7 @@ package com.cnpc.config.service.impl;
 import com.cnpc.config.entity.Properties;
 import com.cnpc.config.entity.KeyValue;
 import com.cnpc.config.repository.PropertiesRepository;
-import com.cnpc.config.repository.ValuesRepository;
+import com.cnpc.config.repository.KeyValueRepository;
 import com.cnpc.config.service.ConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -26,11 +26,16 @@ public class ConfigServiceImpl implements ConfigService {
     private PropertiesRepository propertiesRepository;
 
     @Autowired
-    private ValuesRepository valuesRepository;
+    private KeyValueRepository keyValueRepository;
 
     @Override
     public void save(Properties properties) {
         propertiesRepository.save(properties);
+    }
+
+    @Override
+    public void deleteProperties(String id) {
+        propertiesRepository.deleteById(id);
     }
 
     @Override
@@ -61,7 +66,7 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public List<KeyValue> findByPid(String pid) {
-        return valuesRepository.findByPid(pid);
+        return keyValueRepository.findByPid(pid);
     }
 
 }

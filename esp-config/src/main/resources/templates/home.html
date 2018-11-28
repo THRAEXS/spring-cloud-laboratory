@@ -9,71 +9,110 @@
 
     <div id="header" th:replace="header :: header"></div>
 
-    <div class="container-fluid xd-container">
-        <h1>Add Application Profiles</h1>
-        <form id="pform" th:action="@{/config/save}" method="post">
-            <input type="hidden" name="id"/>
-            <table id="propertiesForm" class="table table-striped table-hover">
-                <thead>
-                    <tr><th>Application</th><th>Profile</th><th>Label</th><th>Operations</th></tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="width: 35%;">
-                            <input type="text" style="width: 100%;" name="application"/>
-                        </td>
-                        <td style="width: 25%;">
-                            <input type="text" style="width: 100%;" name="profile"/>
-                        </td>
-                        <td style="width: 25%;">
-                            <input type="text" style="width: 100%;" name="label"/>
-                        </td>
-                        <td style="width: 15%;">
-                            <a href="javascript:void(0);" onclick="javascript:$('form#pform').submit();">Save</a>
-                            <a href="javascript:void(0);" onclick="javascript:$('form#pform input[name]').val('');">Cancel</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </form>
-
-        <h1>Application Profiles Info</h1>
+    <div id="cx-container" class="container-fluid xd-container">
+        <h1>Profiles Info</h1>
         <table id="propertiesInfo" class="table table-striped table-hover">
             <thead>
-                <tr><th>Application</th><th>Profile</th><th>Label</th><th>Operations</th></tr>
+                <tr><th>Application</th><th>Profile</th><th>Label</th><th class="wp1">Operations</th></tr>
             </thead>
             <tbody>
-                <tr th:each="p,s : ${propertiesList}">
-                    <td style="width: 35%;" th:text="${p.application}"></td>
-                    <td style="width: 25%;" th:text="${p.profile}"></td>
-                    <td style="width: 25%;" th:text="${p.label}"></td>
-                    <td style="width: 15%;">
-                        <a th:href="@{/{prefix}/{a}/{p}/{l}(prefix=${prefix},a=${p.application},p=${p.profile},l=${p.label})}" target="_blank">JSON</a>
-                        <a th:href="@{/config/detail/{id}(id=${p.id})}" target="_blank">Detail</a>
-                        <a href="javascript:void(0);" th:onclick="'edit('+${s.index}+')'">Edit</a>
+                <tr th:each="p,s : ${propertiesList}" th:data-pro-index="${s.index}" class="te ro">
+                    <td>
+                        <input type="hidden" name="id" th:value="${p.id}"/>
+                        <input type="text" readonly name="application" th:value="${p.application}"/>
+                    </td>
+                    <td>
+                        <input type="text" readonly name="profile" th:value="${p.profile}"/>
+                    </td>
+                    <td>
+                        <input type="text" readonly name="label" th:value="${p.label}"/>
+                    </td>
+                    <td>
                         <a th:href="@{/config/delete/{id}(id=${p.id})}">Delete</a>
+                        <a href="javascript:void(0);" class="on" @click="isReadonly($event)">Edit</a>
+                        <a href="javascript:void(0);" class="off" @click="isReadonly($event)">Cancel</a>
+                        <a href="javascript:void(0);" class="off" @click="save($event)">Save</a>
+
+                        <a th:href="@{/config/detail/{a}/{p}/{l}/{id}(a=${p.application},p=${p.profile},l=${p.label},id=${p.id})}" target="_blank" class="on">Detail</a>
+                        <a th:href="@{/{prefix}/{a}/{p}/{l}(prefix=${prefix},a=${p.application},p=${p.profile},l=${p.label})}" target="_blank" class="on">JSON</a>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <script type="text/javascript" th:src="@{/js/wro.js}" ></script>
+    <script type="text/javascript" th:src="@{/js/wro.js}"></script>
+    <script type="text/javascript" th:src="@{/js/vue.js}"></script>
     <script th:inline="javascript">
-        var pl = [[${propertiesList}]];
-        var form = $('form#pform input[name]');
+        new Vue({
+            el: '#cx-container',
+            data() {
+                let plist = [[${propertiesList}]];
+                plist.map(it => it.ro = true);
 
-        function edit(ind) {
-            var pro = pl[ind];
-            for (var i = 0, len = form.length; i < len; i++) {
-                var ele = form[i];
-                ele.value = pro[ele.name];
+                return {
+                    proList: plist
+                };
+            },
+            methods: {
+                isReadonly(event) {
+                    const pr = $(event.target).parents('tr');
+                    const ind = pr.data('pro-index');
+                    let pro = this.proList[ind];
+
+                    pro.ro = !pro.ro;
+
+                    // reset value
+                    pro.ro && pr.find('td input[type="text"]').each((i, it) => it.value = pro[it.name]);
+
+                    /*const ac = ['addClass', 'removeClass'];
+                    const pr = $(event).parents('tr');
+                    const ins = pr[ac[ss]]('ro').find('td input[type=text]');
+
+                    ins[ss?'removeAttr':'attr'](ss?'readonly':{'readonly': 'readonly'});
+                    pr.find('a.on')[ac[1^ss]]('collapse');
+                    pr.find('a.off')[ac[ss]]('collapse');
+
+                    if (!ss) {
+                        const item = this.proList[pr.data('pro-index')];
+                        ins.each((ind, it) => it.value = item[it.name]);
+                    }*/
+                },
+                save(event) {
+                    const pr = $(event.target).parents('tr');
+                    const ind = pr.data('pro-index');
+                    let pro = this.proList[ind];
+
+                    let proNew = {};
+                    pr.find('td input').each((i, it) => proNew[it.name] = String.trim(it.value));
+
+                    if (pro.id == proNew.id && pro.application == proNew.application
+                        && pro.profile == proNew.profile && pro.label == proNew.label) {
+                        // reset value
+                        pr.find('td input[type="text"]').each((i, it) => it.value = pro[it.name]);
+                        pro.ro = !pro.ro;
+                    } else {
+                        $.ajax({
+                            url: '/config/save',
+                            method: 'post',
+                            data: proNew,
+                            success: function() {
+                                pro.ro = !pro.ro;
+                            }
+                        });
+                    }
+                }
+            },
+            created() {
+                $('table#propertiesInfo tbody tr').removeClass('ro').each((ind, it) => {
+                    let ele = $(it);
+                    const attr = `proList[${ind}].ro`;
+
+                    ele.attr(':class', `{ ro: ${attr} }`).find('input[type="text"]').attr(':readonly', attr);
+                    ele.find('a.on').attr('v-show', attr);
+                    ele.find('a.off').attr('v-show', `!${attr}`);
+                });
             }
-        }
-
-        $(document).ready(function() {
-            $('table.stripeable tr:odd').addClass('odd');
-            $('table.stripeable tr:even').addClass('even');
         });
     </script>
 </body>

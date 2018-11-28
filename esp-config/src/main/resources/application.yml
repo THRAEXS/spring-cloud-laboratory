@@ -17,6 +17,8 @@ spring:
   jpa:
     database: mysql
     show-sql: true
+  thymeleaf:
+      cache: false
 
 
 server:

@@ -6,9 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @Author 鬼王
@@ -29,6 +27,13 @@ public class Properties implements Serializable {
 
     private String label;
 
-    @Transient
-    private List<KeyValue> values;
+    public Properties() {
+    }
+
+    public Properties(String id, String application, String profile, String label) {
+        this.id = id;
+        this.application = application;
+        this.profile = profile;
+        this.label = label;
+    }
 }

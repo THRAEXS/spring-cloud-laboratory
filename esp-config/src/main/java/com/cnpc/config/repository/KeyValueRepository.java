@@ -9,7 +9,7 @@ import java.util.List;
  * @Author 鬼王
  * @Date 2018/11/27 14:32
  */
-public interface ValuesRepository extends JpaRepository<KeyValue, String> {
+public interface KeyValueRepository extends JpaRepository<KeyValue, String> {
 
     List<KeyValue> findByPid(String pid);
 

@@ -13,6 +13,8 @@ public interface ConfigService {
 
     void save(Properties properties);
 
+    void deleteProperties(String id);
+
     List<Properties> findAll();
 
     List<Properties> findByGroup();

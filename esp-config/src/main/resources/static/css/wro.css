@@ -6391,3 +6391,16 @@ table td.action-column {
 .help-block {
   color: #f1f1f1;
 }
+
+.wp1 { width: 15%; }
+.wp2 { width: 25%; }
+.wp3 { width: 35%; }
+.wp-f { width: 100%; }
+
+tr.te td input {
+  width: 100%;
+}
+tr.ro td input {
+  border: none !important;
+  background: transparent !important;
+}

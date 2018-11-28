@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Configuration</title>
+    <title>Key Value</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/wro.css}">
 </head>
@@ -10,11 +10,41 @@
     <div id="header" th:replace="header :: header"></div>
 
     <div class="container-fluid xd-container">
-        <h1>Add Application Profiles Details</h1>
+        <h1 th:text="${properties.application}+'-'+${properties.profile}+'['+${properties.label}+']'">Add Key-Value</h1>
+        <form id="kv-form" th:action="@{/config/save}" method="post">
+            <input type="hidden" name="id"/>
+            <table id="kv-table" class="table table-striped table-hover">
+                <thead>
+                    <tr><th style="width: 45%;">Key</th><th style="width: 40%;">Value</th><th style="width: 15%;">
+                        <a href="javascript:void(0);" onclick="add()">Add</a>
+                        <a href="javascript:void(0);">Save</a>
+                        <a href="javascript:void(0);">Cancel</a>
+                    </th></tr>
+                </thead>
+                <tbody>
+                    <!--<tr>-->
+                        <!--<td style="width: 35%;">-->
+                            <!--<input type="text" style="width: 100%;" name="application"/>-->
+                        <!--</td>-->
+                        <!--<td style="width: 25%;">-->
+                            <!--<input type="text" style="width: 100%;" name="profile"/>-->
+                        <!--</td>-->
+                        <!--<td style="width: 15%;">-->
+                            <!--<a href="javascript:void(0);" onclick="javascript:$('form#pform').submit();">Save</a>-->
+                            <!--<a href="javascript:void(0);" onclick="javascript:$('form#pform').submit();">Delete</a>-->
+                            <!--<a href="javascript:void(0);" onclick="javascript:$('form#pform input[name]').val('');">Cancel</a>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                </tbody>
+            </table>
+        </form>
     </div>
 
     <script type="text/javascript" th:src="@{/js/wro.js}" ></script>
-    <script th:inline="javascript">
+    <script type="text/javascript">
+        function add() {
+            $('table#kv-table tbody').prepend('<tr><td>111</td><td>111</td><td>111</td></tr>');
+        }
     </script>
 </body>
 </html>
