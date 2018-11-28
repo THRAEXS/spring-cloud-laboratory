@@ -34,6 +34,11 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     @Override
+    public void saveAll(List<Properties> proList) {
+        propertiesRepository.saveAll(proList);
+    }
+
+    @Override
     public void deleteProperties(String id) {
         propertiesRepository.deleteById(id);
     }
