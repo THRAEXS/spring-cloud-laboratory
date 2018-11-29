@@ -13,13 +13,13 @@ spring:
       server:
         jdbc:
           sql: SELECT pkey, pvalue FROM key_value WHERE pid IN (SELECT id FROM properties WHERE application=? AND profile=? AND label=?) ORDER BY pkey, pvalue
-        prefix: cfg
   jpa:
     database: mysql
     show-sql: true
   thymeleaf:
       cache: false
-
+  mvc:
+    static-path-pattern: /res/static/**
 
 server:
   port: 8750
