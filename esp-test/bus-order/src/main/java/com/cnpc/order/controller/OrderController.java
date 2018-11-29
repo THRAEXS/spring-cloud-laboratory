@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @Author 鬼王
@@ -43,9 +45,8 @@ public class OrderController {
     @GetMapping("list/user")
     public List<String> userList() {
         System.out.println("Through feign get user list");
-        List<String> list = userService.list();
-        list.addAll(userService.list());
-        return list;
+        return Stream.concat(Arrays.asList("Guiwang", "HANZO", name).stream(),
+                userService.list().stream()).collect(Collectors.toList());
     }
 
 }
