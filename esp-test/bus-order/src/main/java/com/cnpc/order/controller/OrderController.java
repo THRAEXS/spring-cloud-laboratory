@@ -1,5 +1,7 @@
 package com.cnpc.order.controller;
 
+import com.cnpc.order.feign.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,9 @@ import java.util.List;
 @RequestMapping("detail")
 public class OrderController {
 
+    @Autowired
+    private UserService userService;
+
     @Value("${app.order.name}")
     private String name;
 
@@ -27,6 +32,20 @@ public class OrderController {
     @GetMapping("list")
     public List<String> list() {
         return Arrays.asList("Guiwang", "HANZO", name);
+    }
+
+    @GetMapping("get/user")
+    public String getUser() {
+        System.out.println("Through feign get user");
+        return name + ": " + userService.get();
+    }
+
+    @GetMapping("list/user")
+    public List<String> userList() {
+        System.out.println("Through feign get user list");
+        List<String> list = userService.list();
+        list.addAll(userService.list());
+        return list;
     }
 
 }
