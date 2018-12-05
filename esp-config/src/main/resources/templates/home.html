@@ -145,7 +145,7 @@
                     const ind = pr.data('pro-index');
                     let pro = this.proList[ind];
                     const prf = $(event.target).data('prefix');
-                    $(event.target).attr('href', `${prf}/${pro.application}/${pro.profile}/${pro.label}`);
+                    $(event.target).attr('href', `${prf=='/'?'':prf}/${pro.application}/${pro.profile}/${pro.label}`);
                 }
             },
             created() {
