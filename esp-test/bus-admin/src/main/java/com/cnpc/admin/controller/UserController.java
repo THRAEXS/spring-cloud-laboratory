@@ -16,17 +16,23 @@ import java.util.List;
 @RequestMapping("user")
 public class UserController {
 
-    @Value("${app.user.name}")
+    @Value("${spring.application.name}")
     private String name;
+
+    @Value("${server.port}")
+    private Integer port;
+
+    @Value("${app.user.name}")
+    private String username;
 
     @GetMapping("get")
     public String get() {
-        return name;
+        return name + "[" + port + "]: " + username;
     }
 
     @GetMapping("list")
     public List<String> list() {
-        return Arrays.asList("Guiwang", "HANZO", name);
+        return Arrays.asList("Guiwang", "HANZO", username);
     }
 
 }

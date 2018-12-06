@@ -8,8 +8,33 @@ server:
 eureka:
   instance:
     instanceId: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+    preferIpAddress: true
+    metadataMap:
+      zone: zone1
   client:
+    availabilityZones:
+      us-east-1: zone1,zone2
     serviceUrl:
-      defaultZone: http://${spring.cloud.client.ip-address}:8761/eureka/
+      zone1: http://${spring.cloud.client.ip-address}:8761/eureka/
+      zone2: http://${spring.cloud.client.ip-address}:8762/eureka/
+#    serviceUrl:
+#      defaultZone: http://${spring.cloud.client.ip-address}:8761/eureka/
 
 app.user.name: THRAEX
+
+---
+spring:
+  profiles: replicas
+
+server:
+  port: 8084
+
+eureka:
+  instance:
+    metadataMap:
+      zone: zone2
+  client:
+    availabilityZones:
+      us-east-1: zone2,zone1
+
+app.user.name: Guiwang

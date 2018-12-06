@@ -6,8 +6,8 @@ spring:
       default-filters:
       - StripPrefix=2
       routes:
-      - id: route-esp-admin
-        uri: lb://esp-admin
+      - id: route-bus-admin
+        uri: lb://bus-admin
         predicates:
         - Path=/api/admin/**
       globalcors:
@@ -26,11 +26,18 @@ eureka:
     instanceId: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
     # 使用IP地址注册，默认为主机名
     preferIpAddress: true
+    metadataMap:
+      zone: zone1
   client:
+    availabilityZones:
+      us-east-1: zone1,zone2
+    serviceUrl:
+      zone1: http://${spring.cloud.client.ip-address}:8761/eureka/
+      zone2: http://${spring.cloud.client.ip-address}:8762/eureka/
     # 禁用Eureka服务发现客户端
 #    enabled: false
-    serviceUrl:
-      defaultZone: http://${spring.cloud.client.ip-address}:8761/eureka/
+#    serviceUrl:
+#      defaultZone: http://${spring.cloud.client.ip-address}:8761/eureka/
 
 management:
   endpoints:
