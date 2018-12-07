@@ -1,5 +1,0 @@
-spring:
-  cloud:
-    config:
-      uri: http://${spring.cloud.client.hostname}:8082
-      profile: dev
