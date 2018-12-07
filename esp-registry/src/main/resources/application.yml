@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: esp-registry
+
+server:
+  port: 8761
+
+eureka:
+  instance:
+    hostname: ${spring.cloud.client.ip-address}
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    availabilityZones:
+      us-east-1: zone1,zone2
+    serviceUrl:
+      zone1: http://${eureka.instance.hostname}:8761/eureka/
+      zone2: http://${eureka.instance.hostname}:8762/eureka/
+#    serviceUrl:
+#      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+---
+spring:
+  profiles: replicas
+
+server:
+  port: 8762
+
+eureka:
+  client:
+    availabilityZones:
+      us-east-1: zone2,zone1

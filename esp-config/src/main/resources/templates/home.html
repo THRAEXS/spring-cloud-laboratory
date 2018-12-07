@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Configuration - Profiles</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/res/static/css/wro.css}">
+</head>
+<body id="one">
+
+    <div id="header" th:replace="header :: header"></div>
+
+    <div id="cx-container" class="container-fluid xd-container">
+        <h1>Add Profiles</h1>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr><th class="wp4">Application</th><th class="wp3">Profile</th><th class="wp3">Label</th><th class="wp1">
+                    <a href="javascript:void(0);" @click="increase">Insert</a>
+                    <a href="javascript:void(0);" @click="saveAll">Save</a>
+                </th></tr>
+            </thead>
+            <tbody>
+                <tr is="properties-item"
+                    v-for="(item, index) in newProperties"
+                    :key="index"
+                    :index="index"
+                    :item="item"
+                    @click="reduce(index)"
+                ></tr>
+            </tbody>
+        </table>
+
+        <h1>Profiles Info</h1>
+        <table id="propertiesInfo" class="table table-striped table-hover">
+            <thead>
+                <tr><th class="wp4">Application</th><th class="wp3">Profile</th>
+                    <th class="wp3">Label</th><th class="wp1">Operations</th></tr>
+            </thead>
+            <tbody>
+                <tr th:each="p,s : ${propertiesList}" th:data-pro-index="${s.index}" class="te ro">
+                    <td>
+                        <input type="text" readonly name="application" th:value="${p.application}"/>
+                    </td>
+                    <td>
+                        <input type="text" readonly name="profile" th:value="${p.profile}"/>
+                    </td>
+                    <td>
+                        <input type="text" readonly name="label" th:value="${p.label}"/>
+                    </td>
+                    <td>
+                        <a th:href="@{/config/delete/{id}(id=${p.id})}">Delete</a>
+                        <a href="javascript:void(0);" class="on" @click="isReadonly($event)">Edit</a>
+                        <a href="javascript:void(0);" class="off" @click="isReadonly($event)">Cancel</a>
+                        <a href="javascript:void(0);" class="off" @click="save($event)">Save</a>
+
+                        <a th:href="@{/config/detail/{id}(id=${p.id})}" target="_blank" class="on">Detail</a>
+                        <!--<a th:href="@{/{prefix}/{a}/{p}/{l}(prefix=${prefix},a=${p.application},p=${p.profile},l=${p.label})}" target="_blank" class="on">JSON</a>-->
+                        <a href="javascript:void(0);" th:data-prefix="@{/{prefix}(prefix=${prefix})}" target="_blank" class="on" @click="goJson($event)">JSON</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script type="text/javascript" th:src="@{/res/static/js/wro.js}"></script>
+    <script type="text/javascript" th:src="@{/res/static/js/vue.min.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+        Vue.component('properties-item', {
+            template: `
+            <tr class="te">
+                <td><input type="text" v-model="item.application"/></td>
+                <td><input type="text" v-model="item.profile"/></td>
+                <td><input type="text" v-model="item.label"/></td>
+                <td><a href="javascript:void(0);" @click="$emit(\'click\')">Delete</a></td>
+            </tr>
+            `,
+            props: ['item']
+        });
+
+        new Vue({
+            el: '#cx-container',
+            data() {
+                let proList = [[${propertiesList}]] || [];
+                proList.map(it => it.ro = true);
+
+                return {
+                    newProperties: [{ application: null, profile: null, label: null }],
+                    proList
+                };
+            },
+            methods: {
+                isReadonly(event) {
+                    const pr = $(event.target).parents('tr');
+                    const ind = pr.data('pro-index');
+                    let pro = this.proList[ind];
+
+                    pro.ro = !pro.ro;
+
+                    // reset value
+                    pro.ro && pr.find('td input').each((i, it) => it.value = pro[it.name]);
+                },
+                save(event) {
+                    const pr = $(event.target).parents('tr');
+                    const ind = pr.data('pro-index');
+                    let pro = this.proList[ind];
+
+                    let proNew = {};
+                    pr.find('td input').each((i, it) => proNew[it.name] = String.trim(it.value));
+
+                    if (pro.application == proNew.application
+                        && pro.profile == proNew.profile && pro.label == proNew.label) {
+                        // reset value
+                        pr.find('td input').each((i, it) => it.value = pro[it.name]);
+                        pro.ro = !pro.ro;
+                    } else {
+                        $.ajax({
+                            url: '/config/save',
+                            method: 'post',
+                            data: Object.assign(pro, proNew),
+                            success: function() {
+                                pro.ro = !pro.ro;
+                            }
+                        });
+                    }
+                },
+                saveAll() {
+                    $.ajax({
+                        url: '/config/save/all',
+                        method: 'post',
+                        data: JSON.stringify(this.newProperties),
+                        // dataType: 'json',
+                        contentType: 'application/json;charset=UTF-8',
+                        success: function() {
+                            location.reload();
+                        }
+                    });
+                },
+                increase() {
+                    this.newProperties.push({ application: null, profile: null, label: null });
+                },
+                reduce(index) {
+                    this.newProperties.splice(index, 1);
+                },
+                goJson(event) {
+                    const pr = $(event.target).parents('tr');
+                    const ind = pr.data('pro-index');
+                    let pro = this.proList[ind];
+                    const prf = $(event.target).data('prefix');
+                    $(event.target).attr('href', `${prf=='/'?'':prf}/${pro.application}/${pro.profile}/${pro.label}`);
+                }
+            },
+            created() {
+                $('table#propertiesInfo tbody tr').removeClass('ro').each((ind, it) => {
+                    let ele = $(it);
+                    const attr = `proList[${ind}].ro`;
+
+                    ele.attr(':class', `{ ro: ${attr} }`).find('input').attr(':readonly', attr);
+                    ele.find('a.on').attr('v-show', attr);
+                    ele.find('a.off').attr('v-show', `!${attr}`);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

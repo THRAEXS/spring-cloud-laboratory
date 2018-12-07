@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Configuration - Key Value</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/res/static/css/wro.css}">
+</head>
+<body id="one">
+
+    <div id="header" th:replace="header :: header"></div>
+
+    <div id="cx-container" class="container-fluid xd-container">
+        <h1 th:text="${properties.application}+'-'+${properties.profile}+'['+${properties.label}+']'">Add Key-Value</h1>
+        <div class="col-sm-6 col-lg-6 col-md-6 pd-l">
+            <table id="kv-table" class="table table-striped table-hover">
+                <thead>
+                    <tr><th class="wp5">Key</th><th class="wp5">Value</th><th class="wp2">Operations</th></tr>
+                </thead>
+                <tbody>
+                    <tr th:each="p,s : ${keyValueList}" th:data-pro-index="${s.index}" class="te ro">
+                        <td>
+                            <input type="text" readonly name="pkey" th:value="${p.pkey}"/>
+                        </td>
+                        <td>
+                            <input type="text" readonly name="pvalue" th:value="${p.pvalue}"/>
+                        </td>
+                        <td>
+                            <a th:href="@{/config/detail/delete/{pid}/{id}(pid=${p.pid},id=${p.id})}">Delete</a>
+                            <a href="javascript:void(0);" class="on" @click="isReadonly($event)">Edit</a>
+                            <a href="javascript:void(0);" class="off" @click="isReadonly($event)">Cancel</a>
+                            <a href="javascript:void(0);" class="off" @click="save($event)">Save</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-6 col-lg-6 col-md-6 pd-r">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr><th class="wp5">Key</th><th class="wp5">Value</th><th class="wp2">
+                        <a href="javascript:void(0);" @click="increase">Insert</a>
+                        <a href="javascript:void(0);" @click="saveAll">Save</a>
+                    </th></tr>
+                </thead>
+                <tbody>
+                    <tr is="key-value-item"
+                        v-for="(item, index) in newKeyValue"
+                        :key="index"
+                        :index="index"
+                        :item="item"
+                        @click="reduce(index)"
+                    ></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script type="text/javascript" th:src="@{/res/static/js/wro.js}" ></script>
+    <script type="text/javascript" th:src="@{/res/static/js/vue.min.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+        Vue.component('key-value-item', {
+            template: `
+            <tr class="te">
+                <td><input type="text" v-model="item.pkey"/></td>
+                <td><input type="text" v-model="item.pvalue"/></td>
+                <td><a href="javascript:void(0);" @click="$emit(\'click\')">Delete</a></td>
+            </tr>
+            `,
+            props: ['item']
+        });
+
+        new Vue({
+            el: '#cx-container',
+            data() {
+                const properties = [[${properties}]] || {};
+                let kvList = [[${keyValueList}]] || [];
+                kvList.map(it => it.ro = true);
+
+                return {
+                    properties,
+                    kvList,
+                    newKeyValue: [{ pid: properties.id, pkey: null, pvalue: null }]
+                }
+            },
+            methods: {
+                isReadonly(event) {
+                    const pr = $(event.target).parents('tr');
+                    const ind = pr.data('pro-index');
+                    let kv = this.kvList[ind];
+
+                    kv.ro = !kv.ro;
+
+                    // reset value
+                    kv.ro && pr.find('td input').each((i, it) => it.value = kv[it.name]);
+                },
+                save(event) {
+                    const pr = $(event.target).parents('tr');
+                    const ind = pr.data('pro-index');
+                    let kv = this.kvList[ind];
+
+                    let kvNew = {};
+                    pr.find('td input').each((i, it) => kvNew[it.name] = String.trim(it.value));
+
+                    if (kv.pkey == kvNew.pkey && kv.pvalue == kvNew.pvalue) {
+                        // reset value
+                        pr.find('td input').each((i, it) => it.value = kv[it.name]);
+                        kv.ro = !kv.ro;
+                    } else {
+                        $.ajax({
+                            url: '/config/detail/save',
+                            method: 'post',
+                            data: Object.assign(kv, kvNew),
+                            success: function() {
+                                kv.ro = !kv.ro;
+                            }
+                        });
+                    }
+                },
+                saveAll() {
+                    $.ajax({
+                        url: '/config/detail/save/all',
+                        method: 'post',
+                        data: JSON.stringify(this.newKeyValue),
+                        contentType: 'application/json;charset=UTF-8',
+                        success: function() {
+                            location.reload();
+                        }
+                    });
+                },
+                increase() {
+                    this.newKeyValue.push({ pid: this.properties.id, pkey: null, pvalue: null });
+                },
+                reduce(index) {
+                    this.newKeyValue.splice(index, 1);
+                }
+            },
+            created() {
+                $('table#kv-table tbody tr').removeClass('ro').each((ind, it) => {
+                    let ele = $(it);
+                    const attr = `kvList[${ind}].ro`;
+
+                    ele.attr(':class', `{ ro: ${attr} }`).find('input').attr(':readonly', attr);
+                    ele.find('a.on').attr('v-show', attr);
+                    ele.find('a.off').attr('v-show', `!${attr}`);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
