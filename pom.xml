@@ -4,17 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.cnpc</groupId>
-    <artifactId>framework</artifactId>
+    <groupId>com.hanzo</groupId>
+    <artifactId>laboratory</artifactId>
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>Framework</name>
-    <description>Enterprise Service Platform Framework</description>
+    <name>Spring Cloud Laboratory</name>
+    <description>Spring cloud builds micro-services</description>
 
     <developers>
         <developer>
-            <name>Guiwang</name>
+            <name>鬼王</name>
             <email>guixiong97@sina.cn</email>
         </developer>
     </developers>
@@ -22,7 +22,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>8</java.version>
-        <docker.image.prefix>esp</docker.image.prefix>
+        <docker.image.prefix>guiwang</docker.image.prefix>
         <docker.plugin.version>1.0.0</docker.plugin.version>
     </properties>
 
