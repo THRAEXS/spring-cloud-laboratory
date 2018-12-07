@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: esp-platform-config
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/riped-config?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: mysql
+  profiles:
+    active: jdbc
+  cloud:
+    config:
+      server:
+        jdbc:
+          sql: SELECT pkey, pvalue FROM key_value WHERE pid IN (SELECT id FROM properties WHERE application=? AND profile=? AND label=?) ORDER BY pkey, pvalue
+  jpa:
+    database: mysql
+    show-sql: true
+  thymeleaf:
+      cache: false
+  mvc:
+    static-path-pattern: /res/static/**
+
+server:
+  port: 8750
+
+eureka:
+  instance:
+    instanceId: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+    # 使用IP地址注册，默认为主机名
+    preferIpAddress: true
+  client:
+    # 禁用Eureka服务发现客户端
+#    enabled: false
+    serviceUrl:
+      defaultZone: http://${CFG_EUREKA_HOST:${spring.cloud.client.ip-address}}:${CFG_EUREKA_PORT:8761}/eureka/
