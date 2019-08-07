@@ -39,6 +39,7 @@
         <module>esp-platform-gateway</module>
         <module>esp-framework-admin</module>
         <module>esp-business-order</module>
+        <module>esp-framework-fs</module>
     </modules>
 
     <dependencyManagement>

@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: esp-framework-fs
+
+server:
+  port: 8090
