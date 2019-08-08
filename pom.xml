@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.hanzo</groupId>
-    <artifactId>laboratory</artifactId>
+    <groupId>org.thraex</groupId>
+    <artifactId>spring-cloud-laboratory</artifactId>
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
 
@@ -39,6 +39,7 @@
         <module>esp-platform-gateway</module>
         <module>esp-framework-admin</module>
         <module>esp-business-order</module>
+        <module>esp-framework-fs</module>
     </modules>
 
     <dependencyManagement>
