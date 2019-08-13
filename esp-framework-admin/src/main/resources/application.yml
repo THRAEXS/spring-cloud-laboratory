@@ -11,7 +11,6 @@ eureka:
     preferIpAddress: true
     metadataMap:
       zone: zone1
-    status-page-url-path:
   client:
 #    availabilityZones:
 #      us-east-1: zone1,zone2

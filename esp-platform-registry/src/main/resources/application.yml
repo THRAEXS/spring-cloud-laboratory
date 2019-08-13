@@ -12,7 +12,7 @@ eureka:
   client:
     # 服务注册中心也会将自己作为客户端来尝试注册自己,为true(默认)时自动生效
     # false 表示不向注册中心中注册自己
-    registerWithEureka: true
+    registerWithEureka: false
     # 检索服务选项,当设置为True(默认值)时,会进行服务检索,注册中心不负责检索服务。
     # false 表示自己端就是注册中心,我的职责就是维护服务实例,并不需要去检索服务
     fetchRegistry: false
