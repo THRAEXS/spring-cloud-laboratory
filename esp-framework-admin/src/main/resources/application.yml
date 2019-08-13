@@ -11,14 +11,15 @@ eureka:
     preferIpAddress: true
     metadataMap:
       zone: zone1
+    status-page-url-path:
   client:
-    availabilityZones:
-      us-east-1: zone1,zone2
-    serviceUrl:
-      zone1: http://${spring.cloud.client.ip-address}:8761/eureka/
-      zone2: http://${spring.cloud.client.ip-address}:8762/eureka/
+#    availabilityZones:
+#      us-east-1: zone1,zone2
 #    serviceUrl:
-#      defaultZone: http://${spring.cloud.client.ip-address}:8761/eureka/
+#      zone1: http://${spring.cloud.client.ip-address}:8761/eureka/
+#      zone2: http://${spring.cloud.client.ip-address}:8762/eureka/
+    serviceUrl:
+      defaultZone: http://${spring.cloud.client.ip-address}:8761/eureka/
 
 app.user.name: THRAEX
 
