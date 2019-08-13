@@ -1,10 +1,12 @@
 package org.thraex.admin.eureka.controller;
 
+import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.shared.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.thraex.admin.eureka.ManualInstanceRegistration;
@@ -25,7 +27,7 @@ public class RegistrationController {
     private EurekaClient discoveryClient;
 
     @Autowired
-    private ManualInstanceRegistration manualInstanceRegistration;
+    private ManualInstanceRegistration registration;
 
     @Value("${spring.application.name}")
     private String appName;
@@ -35,11 +37,20 @@ public class RegistrationController {
 
     @GetMapping("registration/v1")
     public Map<String, Object> v1() {
+        return this.getResult(registration.v1());
+    }
+
+    @GetMapping({ "registration/v2", "registration/v2/{serviceUrl}" })
+    public Map<String, Object> v2(@PathVariable(required = false) String serviceUrl) {
+        return this.getResult(registration.v2(serviceUrl));
+    }
+
+    private Map<String, Object> getResult(InstanceInfo target) {
         Map<String, Object> result = new HashMap<>(2);
 
         Application application = discoveryClient.getApplications().getRegisteredApplications(appName);
         result.put("current", Optional.of(application).orElse(new Application()).getByInstanceId(instanceId));
-        result.put("target", manualInstanceRegistration.v1());
+        result.put("target", target);
 
         return result;
     }

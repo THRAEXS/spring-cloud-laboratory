@@ -1,6 +1,7 @@
 package org.thraex.admin.eureka;
 
 import com.netflix.appinfo.DataCenterInfo;
+import com.netflix.appinfo.EurekaInstanceConfig;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.appinfo.LeaseInfo;
 import com.netflix.appinfo.MyDataCenterInfo;
@@ -8,7 +9,13 @@ import com.netflix.discovery.shared.resolver.DefaultEndpoint;
 import com.netflix.discovery.shared.resolver.EurekaEndpoint;
 import com.netflix.discovery.shared.transport.EurekaHttpClient;
 import com.netflix.discovery.shared.transport.TransportClientFactory;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.cloud.netflix.eureka.InstanceInfoFactory;
 import org.springframework.cloud.netflix.eureka.http.RestTemplateTransportClientFactory;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +28,8 @@ import java.util.HashMap;
  * @Date 2019/08/13 18:08
  */
 @Component
+@Log4j2
+@ConfigurationProperties("eureka.instance")
 public class ManualInstanceRegistration {
 
     @Value("${spring.cloud.client.ip-address}")
@@ -28,6 +37,12 @@ public class ManualInstanceRegistration {
 
     @Value("${server.port}")
     private String port;
+
+    @Setter
+    private String instanceId;
+
+    @Autowired
+    private EurekaInstanceConfig eurekaInstanceConfig;
 
     public InstanceInfo v1() {
         final String serviceUrl = "http://" + ip + ":8762/eureka/";
@@ -61,6 +76,30 @@ public class ManualInstanceRegistration {
                 .setActionType(InstanceInfo.ActionType.ADDED)
                 //.setPort(8083)
                 .build();
+
+        eurekaHttpClient.register(info);
+
+        return info;
+    }
+
+    public InstanceInfo v2(String serviceUrl) {
+        if (StringUtils.isEmpty(serviceUrl)) {
+            serviceUrl = "http://" + ip + ":8762/eureka/";
+        }
+        log.info("Service url: [{}]", serviceUrl);
+
+        TransportClientFactory factory = new RestTemplateTransportClientFactory();
+        EurekaEndpoint defaultEndpoint = new DefaultEndpoint(serviceUrl);
+        EurekaHttpClient eurekaHttpClient = factory.newClient(defaultEndpoint);
+
+        InstanceInfo info = new InstanceInfoFactory().create(eurekaInstanceConfig);
+        info.setStatus(InstanceInfo.InstanceStatus.UP);
+        info.setLeaseInfo(LeaseInfo.Builder.newBuilder()
+                .setRegistrationTimestamp(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
+                .setRenewalTimestamp(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
+                .setServiceUpTimestamp(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
+                .build());
+        info.setActionType(InstanceInfo.ActionType.ADDED);
 
         eurekaHttpClient.register(info);
 
