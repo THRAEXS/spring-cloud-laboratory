@@ -29,17 +29,6 @@ public class SvgController {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         final String path = "static/svg/*";
 
-        //Function<InputStream, String> getContent = is -> {
-        //    String result = null;
-        //    try {
-        //        result = IOUtils.toString(is, Charset.defaultCharset());
-        //    } catch (IOException e) {
-        //        e.printStackTrace();
-        //    }
-        //
-        //    return result;
-        //};
-
         return Arrays.stream(resolver.getResources(path)).map(resource -> {
             String content = null;
             try {
