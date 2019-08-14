@@ -1,12 +1,7 @@
 package org.thraex.admin;
 
-import org.springframework.boot.ImageBanner;
-import org.springframework.boot.ResourceBanner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 
 /**
  * @Author 鬼王
@@ -41,18 +36,24 @@ public class AdminApplication {
      *     .child(AdminApplication.class)
      *     .run(args);
      * </PRE>
+     *
+     * Banner:
+     *
+     * banner.txt优先级高于以下方式
+     *
+     * <PRE>
+     * ResourceLoader resourceLoader = new DefaultResourceLoader();
+     * Resource resource = resourceLoader.getResource("public/sublime.jpg");
+     * app.setBanner(new ImageBanner(resource));
+     *
+     * // or
+     *
+     * Resource resource = resourceLoader.getResource("public/app-5.svg");
+     * app.setBanner(new ResourceBanner(resource));
+     * </PRE>
      */
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(AdminApplication.class);
-
-        DefaultResourceLoader resourceLoader = new DefaultResourceLoader();
-        Resource resource = resourceLoader.getResource("public/sublime.jpg");
-        app.setBanner(new ImageBanner(resource));
-
-        //Resource resource = resourceLoader.getResource("public/app-5.svg");
-        //app.setBanner(new ResourceBanner(resource));
-
-        app.run(args);
+        SpringApplication.run(AdminApplication.class, args);
     }
 
 }
