@@ -40,16 +40,21 @@ public class RegistrationController {
         return this.getResult(registration.v1());
     }
 
-    @GetMapping({ "registration/v2", "registration/v2/{serviceUrl}" })
-    public Map<String, Object> v2(@PathVariable(required = false) String serviceUrl) {
-        return this.getResult(registration.v2(serviceUrl));
+    @GetMapping({ "registration/v2", "registration/v2/{hp}" })
+    public Map<String, Object> v2(@PathVariable(required = false) String hp) {
+        return this.getResult(registration.v2(hp));
+    }
+
+    @GetMapping({ "registration/v3", "registration/v3/{hp}" })
+    public Map<String, Object> v3(@PathVariable(required = false) String hp) {
+        return this.getResult(registration.v3(hp));
     }
 
     private Map<String, Object> getResult(InstanceInfo target) {
         Map<String, Object> result = new HashMap<>(2);
 
         Application application = discoveryClient.getApplications().getRegisteredApplications(appName);
-        result.put("current", Optional.of(application).orElse(new Application()).getByInstanceId(instanceId));
+        result.put("current", Optional.ofNullable(application).orElse(new Application()).getByInstanceId(instanceId));
         result.put("target", target);
 
         return result;
