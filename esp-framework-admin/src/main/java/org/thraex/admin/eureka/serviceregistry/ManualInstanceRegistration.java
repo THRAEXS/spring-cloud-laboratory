@@ -1,8 +1,9 @@
-package org.thraex.admin.eureka;
+package org.thraex.admin.eureka.serviceregistry;
 
 import com.netflix.appinfo.ApplicationInfoManager;
 import com.netflix.appinfo.DataCenterInfo;
 import com.netflix.appinfo.EurekaInstanceConfig;
+import com.netflix.appinfo.HealthCheckHandler;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.appinfo.LeaseInfo;
 import com.netflix.appinfo.MyDataCenterInfo;
@@ -14,19 +15,20 @@ import com.netflix.discovery.shared.transport.EurekaHttpClient;
 import com.netflix.discovery.shared.transport.TransportClientFactory;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.netflix.eureka.EurekaClientConfigBean;
 import org.springframework.cloud.netflix.eureka.InstanceInfoFactory;
 import org.springframework.cloud.netflix.eureka.http.RestTemplateTransportClientFactory;
+import org.springframework.cloud.netflix.eureka.serviceregistry.EurekaRegistration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -66,6 +68,12 @@ public class ManualInstanceRegistration {
     @Autowired
     private AbstractDiscoveryClientOptionalArgs<?> optionalArgs;
     //MutableDiscoveryClientOptionalArgs
+
+    @Autowired
+    private EurekaRegistration eurekaRegistration;
+
+    @Autowired
+    private ObjectProvider<HealthCheckHandler> healthCheckHandler;
 
     public InstanceInfo v1() {
         log.info("Service url: [{}]", this.defaultServiceUrl);
@@ -161,17 +169,15 @@ public class ManualInstanceRegistration {
          * ${@link org.springframework.cloud.netflix.eureka.EurekaClientConfigBean}
          */
         EurekaClientConfigBean eurekaClientConfig = (EurekaClientConfigBean) this.eurekaClientConfig;
-        Map<String, String> urls = new HashMap<>(1);
-        urls.put(EurekaClientConfigBean.DEFAULT_ZONE, serviceUrl);
-        eurekaClientConfig.setServiceUrl(urls);
+        //Map<String, String> urls = new HashMap<>(1);
+        //urls.put(EurekaClientConfigBean.DEFAULT_ZONE, serviceUrl);
+        //eurekaClientConfig.setServiceUrl(urls);
 
         /**
          * 5
          * ${@link org.springframework.cloud.netflix.eureka.CloudEurekaClient}
          */
-
         //EurekaClient eurekaClient = this.eurekaClient;
-
         //EurekaClient eurekaClient = new CloudEurekaClient(applicationInfoManager, eurekaClientConfig, this.optionalArgs, this.context);
 
         return null;
