@@ -19,6 +19,11 @@ eureka:
 #      zone2: http://${spring.cloud.client.ip-address}:8762/eureka/
     serviceUrl:
       defaultZone: http://${spring.cloud.client.ip-address}:8761/eureka/
+    otherServiceUrl:
+      defaultZone:
+        - http://${spring.cloud.client.ip-address}:8762/eureka/
+        - http://${spring.cloud.client.ip-address}:8763/eureka/
+
 
 app.user.name: THRAEX
 
