@@ -7,9 +7,9 @@ import org.springframework.core.env.ConfigurableEnvironment;
  * @Author 鬼王
  * @Date 2019/08/14 19:14
  */
-public class EurekaClientConfiguration extends EurekaClientAutoConfiguration {
+public class ManualEurekaClientAutoConfiguration extends EurekaClientAutoConfiguration {
 
-    public EurekaClientConfiguration(ConfigurableEnvironment env) {
+    public ManualEurekaClientAutoConfiguration(ConfigurableEnvironment env) {
         super(env);
     }
 
