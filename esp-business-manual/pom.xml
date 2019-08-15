@@ -5,7 +5,7 @@
     <parent>
         <artifactId>spring-cloud-laboratory</artifactId>
         <groupId>org.thraex</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -16,10 +16,22 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.thraex.spring.cloud</groupId>
-            <artifactId>spring-cloud-starter-thraex</artifactId>
-            <version>1.0</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.thraex.spring.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-starter-thraex</artifactId>-->
+            <!--<version>1.0</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
+        <!--</dependency>-->
     </dependencies>
 
 </project>

@@ -3,7 +3,7 @@
 Copy:
 ```sh
 $ scp -r hanzo@10.122.22.115:/home/hanzo/Workspace/MicroServices/esp-framework .
-$ scp hanzo@10.122.22.115:/home/hanzo/Workspace/MicroServices/esp-framework/esp-gateway/target/gateway-0.0.1-SNAPSHOT.jar .
+$ scp hanzo@10.122.22.115:/home/hanzo/Workspace/MicroServices/esp-framework/esp-gateway/target/gateway-1.0.0.jar .
 ```
 
 Running:
@@ -14,7 +14,7 @@ $ mvn spring-boot:run \
 ```
 
 ```sh
-$ java -jar gateway-0.0.1-SNAPSHOT.jar \
+$ java -jar gateway-1.0.0.jar \
 	--CFG_CONFIG_HOST=10.122.22.115 \
 	--eureka.client.serviceUrl.defaultZone=http://10.122.22.115:8761/eureka	
 ```

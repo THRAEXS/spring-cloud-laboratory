@@ -7,15 +7,22 @@
     <groupId>org.thraex</groupId>
     <artifactId>spring-cloud-laboratory</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <name>Spring Cloud Laboratory</name>
     <description>Spring cloud builds micro-services</description>
 
+    <organization>
+        <name>THRAEX</name>
+        <url>None</url>
+    </organization>
+
     <developers>
         <developer>
             <name>鬼王</name>
-            <email>thraex@aliyun.com</email>
+            <email>THRAEX@aliyun.com</email>
+            <organization>${organization.name}</organization>
+            <organizationUrl>${organization.url}</organizationUrl>
         </developer>
     </developers>
 
@@ -29,7 +36,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.6.RELEASE</version>
+        <version>2.1.7.RELEASE</version>
         <relativePath/>
     </parent>
 
@@ -48,7 +55,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Finchley.SR2</version>
+                <version>Greenwich.SR2</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
