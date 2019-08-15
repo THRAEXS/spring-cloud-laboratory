@@ -1,0 +1,8 @@
+*****************************************************************
+*			${spring.application.name}:${server.port}			*
+*			${application.title}								*
+*			${application.version}								*
+*			${application.formatted-version}					*
+*			${spring-boot.version}								*
+*			${spring-boot.formatted-version}					*
+*****************************************************************
