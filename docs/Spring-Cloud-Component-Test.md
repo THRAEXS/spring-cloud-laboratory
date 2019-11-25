@@ -2,8 +2,8 @@
 
 Copy:
 ```sh
-$ scp -r hanzo@10.122.22.115:/home/hanzo/Workspace/MicroServices/esp-framework .
-$ scp hanzo@10.122.22.115:/home/hanzo/Workspace/MicroServices/esp-framework/esp-gateway/target/gateway-1.0.0.jar .
+$ scp -r hanzo@10.122.22.115:/home/hanzo/Workspace/MicroServices/thraex-framework .
+$ scp hanzo@10.122.22.115:/home/hanzo/Workspace/MicroServices/thraex-framework/thraex-gateway/target/gateway-1.0.0.jar .
 ```
 
 Running:
@@ -26,50 +26,50 @@ $ mvn clean package -Dmaven.test.skip=true docker:build
 ```
 
 ```sh
-docker tag 10.122.22.115/esp-registry 10.122.22.115:5000/esp-registry
-docker tag 10.122.22.115/esp-config 10.122.22.115:5000/esp-config
-docker tag 10.122.22.115/esp-gateway 10.122.22.115:5000/esp-gateway
-docker tag 10.122.22.115/esp-admin10.122.22.115:5000/esp-admin
+docker tag 10.122.22.115/thraex-registry 10.122.22.115:5000/thraex-registry
+docker tag 10.122.22.115/thraex-config 10.122.22.115:5000/thraex-config
+docker tag 10.122.22.115/thraex-gateway 10.122.22.115:5000/thraex-gateway
+docker tag 10.122.22.115/thraex-admin10.122.22.115:5000/thraex-admin
 ```
 
 ```sh
-$ docker run -d --name esp-registry -p 8761:8761 10.122.22.115:5000/esp-registry
+$ docker run -d --name thraex-registry -p 8761:8761 10.122.22.115:5000/thraex-registry
 
-$ docker run -d --name esp-config -p 8750:8750 \
+$ docker run -d --name thraex-config -p 8750:8750 \
 	-e CFG_EUREKA_HOST=10.122.22.115 \
-	10.122.22.115:5000/esp-config \
-	; docker logs -f esp-gateway
+	10.122.22.115:5000/thraex-config \
+	; docker logs -f thraex-gateway
 
-$ docker run -d --name esp-gateway -p 8765:8765 \
+$ docker run -d --name thraex-gateway -p 8765:8765 \
 	-e CFG_CONFIG_HOST=10.122.22.115 \
 	-e SPRING_CLOUD_CONFIG_LABEL=env \
-	10.122.22.115:5000/esp-gateway \
-	; docker logs -f esp-gateway
+	10.122.22.115:5000/thraex-gateway \
+	; docker logs -f thraex-gateway
 
-$ docker run -d --name esp-admin -p 8085:8085 \
+$ docker run -d --name thraex-admin -p 8085:8085 \
 	-e CFG_CONFIG_HOST=10.122.22.115 \
 	-e SPRING_CLOUD_CONFIG_LABEL=env \
-	10.122.22.115:5000/esp-admin \
-	; docker logs -f esp-admin
+	10.122.22.115:5000/thraex-admin \
+	; docker logs -f thraex-admin
 ```
 
 ```sh
-docker rm -v $(docker stop esp-registry)
-docker rm -v $(docker stop esp-config)
-docker rm -v $(docker stop esp-gateway)
-docker rm -v $(docker stop esp-admin)
+docker rm -v $(docker stop thraex-registry)
+docker rm -v $(docker stop thraex-config)
+docker rm -v $(docker stop thraex-gateway)
+docker rm -v $(docker stop thraex-admin)
 
 docker rmi $(docker images 10.122.22.115/* -q)
 ```
 
 ```sh
-docker ps -a --filter "name=esp-*"
-docker rm -v $(docker ps -a --filter "name=esp-*" -q)
+docker ps -a --filter "name=thraex-*"
+docker rm -v $(docker ps -a --filter "name=thraex-*" -q)
 ```
 
 ```sh
-docker images -f "reference=10.122.22.115/esp-*"
-docker rmi -f $(docker images -f "reference=10.122.22.115/esp-*" -q)
+docker images -f "reference=10.122.22.115/thraex-*"
+docker rmi -f $(docker images -f "reference=10.122.22.115/thraex-*" -q)
 ```
 
 ## Docker Settings

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: esp-platform-config
+    name: thraex-platform-config
   datasource:
     driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/riped-config?useUnicode=true&characterEncoding=UTF-8&useSSL=false

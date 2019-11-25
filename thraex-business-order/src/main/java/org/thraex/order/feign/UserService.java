@@ -9,7 +9,7 @@ import java.util.List;
  * @Author 鬼王
  * @Date 2018/11/29 19:26
  */
-@FeignClient("esp-framework-admin")
+@FeignClient("thraex-framework-admin")
 public interface UserService {
 
     @GetMapping("user/get")

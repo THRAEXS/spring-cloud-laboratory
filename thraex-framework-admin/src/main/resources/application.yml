@@ -1,6 +1,6 @@
 spring:
   application:
-    name: esp-framework-admin
+    name: thraex-framework-admin
 
 server:
   port: 8083

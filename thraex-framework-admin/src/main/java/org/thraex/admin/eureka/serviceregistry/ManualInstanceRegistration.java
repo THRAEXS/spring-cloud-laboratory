@@ -82,7 +82,7 @@ public class ManualInstanceRegistration {
         EurekaEndpoint defaultEndpoint = new DefaultEndpoint(this.defaultServiceUrl);
         EurekaHttpClient eurekaHttpClient = factory.newClient(defaultEndpoint);
 
-        final String appName = "esp-framework-admin-v1";
+        final String appName = "thraex-framework-admin-v1";
         final String url = "http://" + ip + ":" + port;
         InstanceInfo info = InstanceInfo.Builder.newBuilder()
                 .setInstanceId(appName + ":" + ip + ":" + port)

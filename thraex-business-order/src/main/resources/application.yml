@@ -1,6 +1,6 @@
 spring:
   application:
-    name: esp-business-order
+    name: thraex-business-order
 
 server:
   port: 8093

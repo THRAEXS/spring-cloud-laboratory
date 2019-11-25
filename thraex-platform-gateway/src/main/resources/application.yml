@@ -1,13 +1,13 @@
 spring:
   application:
-    name: esp-platform-gateway
+    name: thraex-platform-gateway
   cloud:
     gateway:
       default-filters:
       - StripPrefix=2
       routes:
-      - id: route-esp-framework-admin
-        uri: lb://esp-framework-admin
+      - id: route-thraex-framework-admin
+        uri: lb://thraex-framework-admin
         predicates:
         - Path=/api/admin/**
       globalcors:
