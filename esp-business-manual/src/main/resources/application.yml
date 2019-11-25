@@ -8,6 +8,7 @@ server:
 thraex:
   keyword: 鬼王
 
+
 eureka:
   instance:
     instanceId: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
@@ -15,10 +16,15 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://${spring.cloud.client.ip-address}:8761/eureka/
-#    otherServiceUrl:
-#      defaultZone:
-#        - http://${spring.cloud.client.ip-address}:8762/eureka/
-#        - http://${spring.cloud.client.ip-address}:8763/eureka/
+    thraex:
+      serviceUrl:
+        defaultZone:
+          - http://${spring.cloud.client.ip-address}:8762/eureka/
+          - http://${spring.cloud.client.ip-address}:8763/eureka/
+#logging:
+#  level:
+#    org.framework: debug
+#    com.netflix: debug
 
 
 
