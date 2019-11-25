@@ -41,13 +41,13 @@
     </parent>
 
     <modules>
-        <module>esp-platform-registry</module>
-        <module>esp-platform-config</module>
-        <module>esp-platform-gateway</module>
-        <module>esp-framework-admin</module>
-        <module>esp-business-order</module>
-        <module>esp-framework-fs</module>
-        <module>esp-business-manual</module>
+        <module>thraex-platform-registry</module>
+        <module>thraex-platform-config</module>
+        <module>thraex-platform-gateway</module>
+        <module>thraex-framework-admin</module>
+        <module>thraex-business-order</module>
+        <module>thraex-framework-fs</module>
+        <module>thraex-business-manual</module>
     </modules>
 
     <dependencyManagement>

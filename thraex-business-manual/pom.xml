@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>esp-business-manual</artifactId>
+    <artifactId>thraex-business-manual</artifactId>
 
     <name>Manual</name>
     <description>Manual instance registration</description>
