@@ -1,13 +1,15 @@
-package org.thraex.fs.base.service;
+package org.thraex.fs.base.service.impl;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.thraex.fs.base.entity.FileInfo;
+import org.thraex.fs.base.service.FileService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -16,7 +18,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -61,24 +62,27 @@ public class FileServiceImpl implements FileService {
                             .map(it -> it.getId().trim())
                             .collect(Collectors.toList()))
                     .map(it -> it.isEmpty() ? null : it)
-                    .orElseThrow(() -> new IllegalStateException("参数有误"));
+                    .orElseThrow(() -> new IllegalArgumentException("参数有误"));
 
-            List<FileInfo> infos = Optional.of(getInfoList(ids))
+            List<FileInfo> infos = Optional.of(
+                    getInfoList(ids))
                     .map(it -> it.isEmpty() ? null : it)
-                    .orElseThrow(() -> new IllegalStateException("无匹配文件"));
+                    .orElseThrow(() -> new FileNotFoundException("无匹配文件信息"));
 
-            List<Path> collect = infos.parallelStream()
-                    .map(it -> Paths.get(it.getPath()))
-                    .filter(it -> Files.exists(it))
-                    .collect(Collectors.toList());
-//            TODO: file not found
+            List<Path> paths = Optional.of(
+                    infos.parallelStream()
+                            .map(it -> Paths.get(it.getPath()))
+                            .filter(it -> Files.exists(it))
+                            .collect(Collectors.toList()))
+                    .map(it -> it.isEmpty() ? null : it)
+                    .orElseThrow(() -> new FileNotFoundException("文件未找到"));
 
             String tmpName = String.valueOf(LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli());
             Path zip = Files.createTempFile(tmpName, ".zip");
 
             FileOutputStream fos = new FileOutputStream(zip.toFile());
             ZipOutputStream zipOut = new ZipOutputStream(fos);
-            collect.stream().forEach(it -> {
+            paths.stream().forEach(it -> {
                 try {
                     File fileToZip = it.toFile();
                     FileInputStream fis = new FileInputStream(fileToZip);
