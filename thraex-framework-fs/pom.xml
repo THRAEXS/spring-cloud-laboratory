@@ -11,8 +11,8 @@
 
     <artifactId>thraex-framework-fs</artifactId>
 
-    <name>File System</name>
-    <description>Framework File System</description>
+    <name>File Storage</name>
+    <description>Framework File Storage</description>
 
     <dependencies>
         <dependency>

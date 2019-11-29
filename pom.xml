@@ -48,6 +48,7 @@
         <module>thraex-business-order</module>
         <module>thraex-framework-fs</module>
         <module>thraex-business-manual</module>
+        <module>thraex-framework-base</module>
     </modules>
 
     <dependencyManagement>
