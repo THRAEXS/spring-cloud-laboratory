@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.thraex.fs.base.entity.FileInfo;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -18,17 +19,19 @@ import java.util.List;
 public class UploadController {
 
     @PostMapping
-    public FileInfo upload(@RequestParam MultipartFile file, String type) {
+    public FileInfo upload(
+            @RequestParam MultipartFile file, String type) {
         System.out.println(file);
         System.out.println(type);
-        return null;
+        return new FileInfo();
     }
 
     @PostMapping("multiple")
-    public List<FileInfo> uploads(@RequestParam List<MultipartFile> files, String type) {
+    public List<FileInfo> uploads(
+            @RequestParam List<MultipartFile> files, String type) {
         System.out.println(files);
         System.out.println(type);
-        return null;
+        return Arrays.asList(new FileInfo());
     }
 
 }
