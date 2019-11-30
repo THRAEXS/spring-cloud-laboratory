@@ -12,8 +12,26 @@ public class Result<T> {
 
     private T data;
 
+    public Result() { }
+
+    public Result(T data) {
+        this.data = data;
+    }
+
     public Result ok() {
         return new Result();
+    }
+
+    public Result ok(T data) {
+        return new Result(data);
+    }
+
+    public Result fail() {
+        return new Result();
+    }
+
+    public Result fail(T data) {
+        return new Result(data);
     }
 
     public Integer getCode() {
