@@ -23,4 +23,24 @@ public interface FileService {
     void downloadArchive(HttpServletRequest request, HttpServletResponse response,
                          String archiveName, Stream<FileInfo> conditions);
 
+    /**
+     * Save files
+     */
+    void save();
+
+    /**
+     * Delete files
+     */
+    void delete();
+
+    /**
+     * File archiving
+     */
+    void archive();
+
+    /**
+     * File to base64
+     */
+    void base64();
+
 }

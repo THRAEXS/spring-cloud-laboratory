@@ -126,4 +126,24 @@ public class FileServiceImpl implements FileService {
             }
         }
     }
+
+    @Override
+    public void save() {
+
+    }
+
+    @Override
+    public void delete() {
+
+    }
+
+    @Override
+    public void archive() {
+
+    }
+
+    @Override
+    public void base64() {
+
+    }
 }
