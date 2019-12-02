@@ -8,6 +8,7 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+import org.thraex.base.result.Result;
 
 /**
  * @author 鬼王
@@ -34,7 +35,7 @@ public class GlobalReturnConfig {
                 ServerHttpRequest request,
                 ServerHttpResponse response) {
 
-            return null;
+            return new Result<>().ok(body);
         }
     }
 
