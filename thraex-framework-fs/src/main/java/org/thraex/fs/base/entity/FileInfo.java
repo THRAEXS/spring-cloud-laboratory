@@ -12,6 +12,8 @@ public class FileInfo extends BaseEntity {
 
     private String name;
 
+    private String contentType;
+
     private String suffix;
 
     private long size;

@@ -1,5 +1,6 @@
 package org.thraex.fs.base.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import org.thraex.fs.base.entity.FileInfo;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,8 +26,12 @@ public interface FileService {
 
     /**
      * Save files
+     *
+     * @param file
+     * @param app default: others
+     * @return {@link FileInfo}
      */
-    void save();
+    FileInfo save(MultipartFile file, String app);
 
     /**
      * Delete files

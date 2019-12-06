@@ -36,5 +36,8 @@ public class FsApplication implements CommandLineRunner {
 
         System.out.println(this.fileInfoMapper.findById("THRAEX"));
         System.out.println(this.fileInfoMapper.getList());
+
+        System.out.println(this.fileInfoMapper.delete("THRAEX"));
+        System.out.println(this.fileInfoMapper.clear());
     }
 }

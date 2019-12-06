@@ -1,8 +1,11 @@
 package org.thraex.fs.base.service.impl;
 
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.thraex.fs.base.entity.FileInfo;
+import org.thraex.fs.base.mapper.FileInfoMapper;
 import org.thraex.fs.base.service.FileService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +35,9 @@ import java.util.zip.ZipOutputStream;
 @Service
 @Log4j2
 public class FileServiceImpl implements FileService {
+
+    @Autowired
+    private FileInfoMapper fileInfoMapper;
 
     private List<FileInfo> infoList;
 
@@ -128,8 +134,29 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public void save() {
+    public FileInfo save(MultipartFile file, String app) {
+        FileInfo info = new FileInfo();
+        String originName = file.getOriginalFilename();
+        info.setName(originName);
+        info.setContentType(file.getContentType());
+        info.setSuffix(originName.substring(originName.lastIndexOf(".")));
+        info.setSize(file.getSize());
+        try {
+            long sn = LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli();
+            Files.createDirectories(Paths.get("./fs/others/"));
+            Path path = Paths.get("./fs/others/" + sn + info.getSuffix());
+            //boolean exists = Files.exists(path);
+            Path file1 = Files.createFile(path);
+            file.transferTo(file1);
+            info.setPath(path.toString());
+            info.setDirectory(path.getParent().toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+        fileInfoMapper.insert(info);
+
+        return info;
     }
 
     @Override
