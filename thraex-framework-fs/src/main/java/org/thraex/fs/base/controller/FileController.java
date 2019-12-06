@@ -46,9 +46,9 @@ public class FileController {
     }
 
 
-    @DeleteMapping("${id}")
-    public void delete(@PathVariable String id) {
-
-    }
+    //@DeleteMapping("${id}")
+    //public void delete(@PathVariable String id) {
+    //
+    //}
 
 }

@@ -1,6 +1,11 @@
 spring:
   application:
     name: thraex-framework-fs
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/THRAEX_FS?useSSL=false
+    username: root
+    password: mysql
 
 server:
   port: 8090

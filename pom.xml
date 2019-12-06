@@ -71,6 +71,11 @@
                 <artifactId>mysql-connector-java</artifactId>
                 <version>5.1.40</version>
             </dependency>
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>2.1.1</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -79,6 +84,17 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <!--<executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                    <mainClass>${startup.main}</mainClass>
+                </configuration>-->
             </plugin>
             <plugin>
                 <groupId>com.spotify</groupId>
@@ -96,6 +112,11 @@
                     </resources>
                 </configuration>
             </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.mybatis.generator</groupId>-->
+                <!--<artifactId>mybatis-generator-maven-plugin</artifactId>-->
+                <!--<version>1.4.0</version>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 </project>
