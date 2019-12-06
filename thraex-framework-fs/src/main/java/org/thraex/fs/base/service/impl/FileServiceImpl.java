@@ -2,6 +2,7 @@ package org.thraex.fs.base.service.impl;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.thraex.fs.base.entity.FileInfo;
@@ -38,6 +39,9 @@ public class FileServiceImpl implements FileService {
 
     @Autowired
     private FileInfoMapper fileInfoMapper;
+
+    @Value("${thraex.fs.rootDir:./fs}")
+    private String rootDir;
 
     private List<FileInfo> infoList;
 
@@ -145,18 +149,23 @@ public class FileServiceImpl implements FileService {
             long sn = LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli();
             Files.createDirectories(Paths.get("./fs/others/"));
             Path path = Paths.get("./fs/others/" + sn + info.getSuffix());
-            //boolean exists = Files.exists(path);
             Path file1 = Files.createFile(path);
             file.transferTo(file1);
             info.setPath(path.toString());
             info.setDirectory(path.getParent().toString());
+            fileInfoMapper.insert(info);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        fileInfoMapper.insert(info);
-
         return info;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(File.separator);
+        System.out.println(File.separatorChar);
+        System.out.println(File.pathSeparator);
+        System.out.println(File.pathSeparatorChar);
     }
 
     @Override
