@@ -147,8 +147,9 @@ public class FileServiceImpl implements FileService {
         info.setSize(file.getSize());
         try {
             long sn = LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli();
-            Files.createDirectories(Paths.get("./fs/others/"));
-            Path path = Paths.get("./fs/others/" + sn + info.getSuffix());
+            String others = "./fs/others/";
+            Files.createDirectories(Paths.get(others));
+            Path path = Paths.get(others + sn + info.getSuffix());
             Path file1 = Files.createFile(path);
             file.transferTo(file1);
             info.setPath(path.toString());
