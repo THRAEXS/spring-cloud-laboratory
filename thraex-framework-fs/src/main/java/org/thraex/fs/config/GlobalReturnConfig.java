@@ -14,29 +14,30 @@ import org.thraex.base.result.Result;
  * @author 鬼王
  * @date 2019/11/29 18:36
  */
-@EnableWebMvc
-@Configuration
+//@EnableWebMvc
+//@Configuration
+@Deprecated
 public class GlobalReturnConfig {
 
-    @RestControllerAdvice
-    static class ResultResponseAdvice implements ResponseBodyAdvice {
-
-        @Override
-        public boolean supports(MethodParameter returnType, Class converterType) {
-            return true;
-        }
-
-        @Override
-        public Object beforeBodyWrite(
-                Object body,
-                MethodParameter returnType,
-                MediaType selectedContentType,
-                Class selectedConverterType,
-                ServerHttpRequest request,
-                ServerHttpResponse response) {
-
-            return new Result<>().ok(body);
-        }
-    }
+    //@RestControllerAdvice
+    //static class ResultResponseAdvice implements ResponseBodyAdvice {
+    //
+    //    @Override
+    //    public boolean supports(MethodParameter returnType, Class converterType) {
+    //        return true;
+    //    }
+    //
+    //    @Override
+    //    public Object beforeBodyWrite(
+    //            Object body,
+    //            MethodParameter returnType,
+    //            MediaType selectedContentType,
+    //            Class selectedConverterType,
+    //            ServerHttpRequest request,
+    //            ServerHttpResponse response) {
+    //
+    //        return new Result<>().ok(body);
+    //    }
+    //}
 
 }
