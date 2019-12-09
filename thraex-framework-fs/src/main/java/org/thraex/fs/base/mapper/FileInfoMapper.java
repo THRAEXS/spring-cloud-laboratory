@@ -18,7 +18,8 @@ public interface FileInfoMapper {
 
     String TABLE_NAME = "FS_FILE_INFO";
 
-    @Select("SELECT * FROM " + TABLE_NAME)
+    @Select("SELECT id, name, content_type contentType, suffix, size, path, directory, "
+            + "create_by createBy, create_time createTime FROM " + TABLE_NAME + " ORDER BY create_time DESC")
     List<FileInfo> getList();
 
     @Select("SELECT * FROM " + TABLE_NAME + " WHERE id = #{id}")

@@ -23,7 +23,6 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -109,11 +108,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public List<FileInfo> save(List<MultipartFile> files, String app) {
-        List<FileInfo> result = new ArrayList<>();
-
-        files.parallelStream().forEach(it -> save(it, app));
-
-        return result;
+        return files.parallelStream().map(it -> save(it, app)).collect(Collectors.toList());
     }
 
     @Override
