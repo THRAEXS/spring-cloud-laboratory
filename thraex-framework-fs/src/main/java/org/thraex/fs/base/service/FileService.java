@@ -5,6 +5,7 @@ import org.thraex.fs.base.entity.FileInfo;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -12,6 +13,43 @@ import java.util.stream.Stream;
  * @date 2019/11/25 21:21
  */
 public interface FileService {
+
+    /**
+     * Get file list
+     *
+     * @return {@link FileInfo} list
+     */
+    List<FileInfo> list();
+
+    /**
+     * Save files
+     *
+     * @param file {@link MultipartFile}
+     * @param app default: others
+     * @return {@link FileInfo}
+     */
+    FileInfo save(MultipartFile file, String app);
+
+    /**
+     * Batch save files
+     *
+     * @param files {@link MultipartFile} list
+     * @param app default: others
+     * @return {@link FileInfo} list
+     */
+    List<FileInfo> save(List<MultipartFile> files, String app);
+
+    /**
+     * Delete files
+
+     * @param id {@link FileInfo} id
+     */
+    void delete(String id);
+
+    /**
+     * Clear all files
+     */
+    void clear();
 
     /**
      * Download the archive
@@ -23,20 +61,6 @@ public interface FileService {
      */
     void downloadArchive(HttpServletRequest request, HttpServletResponse response,
                          String archiveName, Stream<FileInfo> conditions);
-
-    /**
-     * Save files
-     *
-     * @param file
-     * @param app default: others
-     * @return {@link FileInfo}
-     */
-    FileInfo save(MultipartFile file, String app);
-
-    /**
-     * Delete files
-     */
-    void delete();
 
     /**
      * File archiving

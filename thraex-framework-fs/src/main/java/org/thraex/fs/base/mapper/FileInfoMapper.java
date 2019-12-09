@@ -25,7 +25,8 @@ public interface FileInfoMapper {
     FileInfo findById(String id);
 
     @Insert("INSERT INTO " + TABLE_NAME
-            + "(id, name, content_type, suffix, size, path, directory) VALUES (#{id}, #{name}, #{contentType}, #{suffix}, #{size}, #{path}, #{directory})")
+            + "(id, name, content_type, suffix, size, path, directory, create_by, create_time) VALUES "
+            + "(#{id}, #{name}, #{contentType}, #{suffix}, #{size}, #{path}, #{directory}, #{createBy}, #{createTime})")
     @SelectKey(statement = "SELECT UUID()", keyProperty = "id", before = true, resultType = String.class)
     int insert(FileInfo info);
 

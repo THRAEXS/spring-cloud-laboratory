@@ -23,6 +23,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -61,6 +62,74 @@ public class FileServiceImpl implements FileService {
 
     private List<FileInfo> getInfoList(List<String> ids) {
         return infoList.stream().filter(it -> ids.contains(it.getId())).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<FileInfo> list() {
+        return fileInfoMapper.getList();
+    }
+
+    @Override
+    public FileInfo save(MultipartFile file, String app) {
+        FileInfo info = new FileInfo();
+        String originName = file.getOriginalFilename();
+        info.setName(originName);
+        info.setContentType(file.getContentType());
+        info.setSuffix(originName.substring(originName.lastIndexOf(".")));
+        info.setSize(file.getSize());
+
+        LocalDateTime now = LocalDateTime.now();
+        String dir = Stream.of(
+                rootDir,
+                Optional.ofNullable(app)
+                        .map(it -> it.trim())
+                        .map(it -> it.length() > 0 ? it.trim() : null)
+                        .orElse("others"),
+                now.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")))
+                .collect(Collectors.joining(File.separator));
+        try {
+            Files.createDirectories(Paths.get(dir));
+            Path path = Paths.get(dir + File.separator +
+                    now.toInstant(ZoneOffset.of("+8")).toEpochMilli() + info.getSuffix());
+            file.transferTo(Files.createFile(path));
+            info.setPath(path.toString());
+            info.setDirectory(path.getParent().toString());
+
+            // TODO: createBy/createTime
+            info.setCreateBy("THRAEX");
+            info.setCreateTime(now);
+
+            fileInfoMapper.insert(info);
+        } catch (IOException e) {
+            log.error(e.toString());
+        }
+
+        return info;
+    }
+
+    @Override
+    public List<FileInfo> save(List<MultipartFile> files, String app) {
+        List<FileInfo> result = new ArrayList<>();
+
+        files.parallelStream().forEach(it -> save(it, app));
+
+        return result;
+    }
+
+    @Override
+    public void delete(String id) {
+        Optional.ofNullable(fileInfoMapper.findById(id)).ifPresent(it -> {
+            fileInfoMapper.delete(it.getId());
+            boolean delete = Paths.get(it.getPath()).toFile().delete();
+            System.out.println(delete);
+        });
+    }
+
+    @Override
+    public void clear() {
+        fileInfoMapper.getList().parallelStream()
+                .forEach(it -> Paths.get(it.getPath()).toFile().delete());
+        fileInfoMapper.clear();
     }
 
     @Override
@@ -136,44 +205,6 @@ public class FileServiceImpl implements FileService {
                 e1.printStackTrace();
             }
         }
-    }
-
-    @Override
-    public FileInfo save(MultipartFile file, String app) {
-        FileInfo info = new FileInfo();
-        String originName = file.getOriginalFilename();
-        info.setName(originName);
-        info.setContentType(file.getContentType());
-        info.setSuffix(originName.substring(originName.lastIndexOf(".")));
-        info.setSize(file.getSize());
-
-        LocalDateTime now = LocalDateTime.now();
-        long sn = now.toInstant(ZoneOffset.of("+8")).toEpochMilli();
-        String dir = Stream.of(
-                rootDir,
-                Optional.ofNullable(app)
-                        .map(it -> it.trim())
-                        .map(it -> it.length() > 0 ? it.trim() : null)
-                        .orElse("others"),
-                now.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")))
-                .collect(Collectors.joining(File.separator));
-        try {
-            Files.createDirectories(Paths.get(dir));
-            Path path = Paths.get(dir + File.separator + sn + info.getSuffix());
-            file.transferTo(Files.createFile(path));
-            info.setPath(path.toString());
-            info.setDirectory(path.getParent().toString());
-            fileInfoMapper.insert(info);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return info;
-    }
-
-    @Override
-    public void delete() {
-
     }
 
     @Override

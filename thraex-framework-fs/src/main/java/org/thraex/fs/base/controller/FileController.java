@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.thraex.fs.base.entity.FileInfo;
 import org.thraex.fs.base.service.FileService;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -33,25 +32,32 @@ public class FileController {
 
     @PostMapping("multiple")
     public List<FileInfo> multiple(@RequestParam List<MultipartFile> files, String app) {
-        System.out.println(files);
-        System.out.println(app);
-        return Arrays.asList(new FileInfo());
+        return fileService.save(files, app);
     }
 
     @GetMapping
+    public List<FileInfo> list() {
+        return fileService.list();
+    }
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable String id) {
+        fileService.delete(id);
+    }
+
+    @DeleteMapping("clear")
+    public void clear() {
+        fileService.clear();
+    }
+
+    @GetMapping("download")
     public void download() {
 
     }
 
-    @GetMapping("archive")
+    @GetMapping("download/archive")
     public void archive() {
 
-    }
-
-
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable String id) {
-        System.out.println(id);
     }
 
 }
