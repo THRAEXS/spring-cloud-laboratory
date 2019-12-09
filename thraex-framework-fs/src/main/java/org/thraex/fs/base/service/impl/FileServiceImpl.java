@@ -22,6 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,7 +41,7 @@ public class FileServiceImpl implements FileService {
     @Autowired
     private FileInfoMapper fileInfoMapper;
 
-    @Value("${thraex.fs.rootDir:./fs}")
+    @Value("${thraex.fs.rootDir:./tmp/fs}")
     private String rootDir;
 
     private List<FileInfo> infoList;
@@ -145,13 +146,21 @@ public class FileServiceImpl implements FileService {
         info.setContentType(file.getContentType());
         info.setSuffix(originName.substring(originName.lastIndexOf(".")));
         info.setSize(file.getSize());
+
+        LocalDateTime now = LocalDateTime.now();
+        long sn = now.toInstant(ZoneOffset.of("+8")).toEpochMilli();
+        String dir = Stream.of(
+                rootDir,
+                Optional.ofNullable(app)
+                        .map(it -> it.trim())
+                        .map(it -> it.length() > 0 ? it.trim() : null)
+                        .orElse("others"),
+                now.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")))
+                .collect(Collectors.joining(File.separator));
         try {
-            long sn = LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli();
-            String others = "./fs/others/";
-            Files.createDirectories(Paths.get(others));
-            Path path = Paths.get(others + sn + info.getSuffix());
-            Path file1 = Files.createFile(path);
-            file.transferTo(file1);
+            Files.createDirectories(Paths.get(dir));
+            Path path = Paths.get(dir + File.separator + sn + info.getSuffix());
+            file.transferTo(Files.createFile(path));
             info.setPath(path.toString());
             info.setDirectory(path.getParent().toString());
             fileInfoMapper.insert(info);
@@ -160,13 +169,6 @@ public class FileServiceImpl implements FileService {
         }
 
         return info;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(File.separator);
-        System.out.println(File.separatorChar);
-        System.out.println(File.pathSeparator);
-        System.out.println(File.pathSeparatorChar);
     }
 
     @Override
