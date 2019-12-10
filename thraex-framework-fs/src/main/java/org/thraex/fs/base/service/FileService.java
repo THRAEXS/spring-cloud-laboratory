@@ -22,6 +22,14 @@ public interface FileService {
     List<FileInfo> list();
 
     /**
+     * Get file list
+     *
+     * @param ids {@link FileInfo} id list
+     * @return
+     */
+    List<FileInfo> list(List<String> ids);
+
+    /**
      * Get file
      *
      * @param id {@link FileInfo} id

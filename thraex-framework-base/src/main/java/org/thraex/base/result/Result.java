@@ -30,8 +30,10 @@ public class Result<T> {
         return new Result();
     }
 
-    public Result fail(T data) {
-        return new Result(data);
+    public Result fail(String message) {
+        Result result = new Result();
+        result.setMessage(message);
+        return result;
     }
 
     public Integer getCode() {

@@ -23,6 +23,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -68,6 +69,11 @@ public class FileServiceImpl implements FileService {
     @Override
     public List<FileInfo> list() {
         return fileInfoMapper.getList();
+    }
+
+    @Override
+    public List<FileInfo> list(List<String> ids) {
+        return Arrays.asList();
     }
 
     @Override

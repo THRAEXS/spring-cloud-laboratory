@@ -25,6 +25,7 @@ import java.util.stream.Stream;
  */
 @RestController
 @RequestMapping("download")
+@Deprecated
 public class DownloadController {
 
     @Autowired
