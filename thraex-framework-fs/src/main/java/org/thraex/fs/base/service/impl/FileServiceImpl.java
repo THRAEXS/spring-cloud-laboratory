@@ -114,16 +114,22 @@ public class FileServiceImpl implements FileService {
     @Override
     public void delete(String id) {
         Optional.ofNullable(fileInfoMapper.findById(id)).ifPresent(it -> {
+            log.info("Delete file {}[{}]: {}",
+                    it.getName(),
+                    it.getPath(),
+                    Paths.get(it.getPath()).toFile().delete());
             fileInfoMapper.delete(it.getId());
-            boolean delete = Paths.get(it.getPath()).toFile().delete();
-            System.out.println(delete);
         });
     }
 
     @Override
     public void clear() {
+        log.info("Clear all files: {}");
         fileInfoMapper.getList().parallelStream()
-                .forEach(it -> Paths.get(it.getPath()).toFile().delete());
+                .forEach(it -> log.info("Delete {}[{}] file: {}",
+                        it.getName(),
+                        it.getPath(),
+                        Paths.get(it.getPath()).toFile().delete()));
         fileInfoMapper.clear();
     }
 
