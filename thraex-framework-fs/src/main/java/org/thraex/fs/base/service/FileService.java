@@ -68,11 +68,6 @@ public interface FileService {
     void clear();
 
     /**
-     * File archiving
-     */
-    void archive();
-
-    /**
      * File to base64
      */
     void base64();
