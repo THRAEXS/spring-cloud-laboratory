@@ -22,7 +22,8 @@ public interface FileInfoMapper {
             + "create_by createBy, create_time createTime FROM " + TABLE_NAME + " ORDER BY create_time DESC")
     List<FileInfo> getList();
 
-    @Select("SELECT * FROM " + TABLE_NAME + " WHERE id = #{id}")
+    @Select("SELECT id, name, content_type contentType, suffix, size, path, directory, "
+            + "create_by createBy, create_time createTime FROM " + TABLE_NAME + " WHERE id = #{id}")
     FileInfo findById(String id);
 
     @Insert("INSERT INTO " + TABLE_NAME

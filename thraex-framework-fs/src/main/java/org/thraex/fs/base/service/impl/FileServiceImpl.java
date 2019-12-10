@@ -69,6 +69,11 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    public FileInfo find(String id) {
+        return fileInfoMapper.findById(id);
+    }
+
+    @Override
     public FileInfo save(MultipartFile file, String app) {
         FileInfo info = new FileInfo();
         String originName = file.getOriginalFilename();
@@ -82,7 +87,7 @@ public class FileServiceImpl implements FileService {
                 rootDir,
                 Optional.ofNullable(app)
                         .map(it -> it.trim())
-                        .map(it -> it.length() > 0 ? it.trim() : null)
+                        .map(it -> it.length() > 0 ? it : null)
                         .orElse("others"),
                 now.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")))
                 .collect(Collectors.joining(File.separator));

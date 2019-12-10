@@ -22,6 +22,14 @@ public interface FileService {
     List<FileInfo> list();
 
     /**
+     * Get file
+     *
+     * @param id {@link FileInfo} id
+     * @return {@link FileInfo}
+     */
+    FileInfo find(String id);
+
+    /**
      * Save files
      *
      * @param file {@link MultipartFile}
@@ -59,6 +67,7 @@ public interface FileService {
      * @param archiveName
      * @param conditions
      */
+    @Deprecated
     void downloadArchive(HttpServletRequest request, HttpServletResponse response,
                          String archiveName, Stream<FileInfo> conditions);
 
