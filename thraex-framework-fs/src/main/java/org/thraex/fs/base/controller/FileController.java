@@ -209,7 +209,7 @@ public class FileController {
         } catch (IllegalArgumentException | IOException e) {
             try (OutputStream os = response.getOutputStream()) {
                 response.setContentType("application/json;charset=UTF-8");
-                os.write(JSON.toJSONBytes(new Result<>().fail(e.getMessage())));
+                os.write(JSON.toJSONBytes(Result.fail(e.getMessage())));
                 os.flush();
             } catch (IOException e1) {
                 e1.printStackTrace();

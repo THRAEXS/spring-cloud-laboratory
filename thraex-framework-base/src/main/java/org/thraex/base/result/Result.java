@@ -1,10 +1,13 @@
 package org.thraex.base.result;
 
+import java.io.Serializable;
+import java.util.Optional;
+
 /**
  * @author 鬼王
  * @date 2019/11/29 18:42
  */
-public class Result<T> {
+public class Result<T> implements Serializable {
 
     private Integer code;
 
@@ -12,28 +15,36 @@ public class Result<T> {
 
     private T data;
 
-    public Result() { }
+    public static Result ok(Object data) {
+        Result r = new Result();
+        r.setCode(200);
+        r.setData(data);
 
-    public Result(T data) {
-        this.data = data;
+        return r;
     }
 
-    public Result ok() {
-        return this;
+    public static Result ok(Object data, Integer code) {
+        Result r = new Result();
+        r.setCode(Optional.ofNullable(code).orElse(200));
+        r.setData(data);
+
+        return r;
     }
 
-    public Result ok(T data) {
-        this.setData(data);
-        return this;
+    public static Result fail(String message) {
+        Result r = new Result();
+        r.setCode(-1);
+        r.setMessage(message);
+
+        return r;
     }
 
-    public Result fail() {
-        return this;
-    }
+    public static Result fail(String message, Integer code) {
+        Result r = new Result();
+        r.setCode(Optional.ofNullable(code).orElse(-1));
+        r.setMessage(message);
 
-    public Result fail(String message) {
-        this.setMessage(message);
-        return this;
+        return r;
     }
 
     public Integer getCode() {
