@@ -60,6 +60,16 @@ public interface FileService {
     void clear();
 
     /**
+     * File archiving
+     */
+    void archive();
+
+    /**
+     * File to base64
+     */
+    void base64();
+
+    /**
      * Download the archive
      *
      * @param request
@@ -70,15 +80,5 @@ public interface FileService {
     @Deprecated
     void downloadArchive(HttpServletRequest request, HttpServletResponse response,
                          String archiveName, Stream<FileInfo> conditions);
-
-    /**
-     * File archiving
-     */
-    void archive();
-
-    /**
-     * File to base64
-     */
-    void base64();
 
 }

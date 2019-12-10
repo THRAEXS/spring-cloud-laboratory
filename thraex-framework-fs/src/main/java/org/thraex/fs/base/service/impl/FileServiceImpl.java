@@ -44,6 +44,7 @@ public class FileServiceImpl implements FileService {
     @Value("${thraex.fs.rootDir:./tmp/fs}")
     private String rootDir;
 
+    @Deprecated
     private List<FileInfo> infoList;
 
     public FileServiceImpl() {
@@ -59,6 +60,7 @@ public class FileServiceImpl implements FileService {
                 .collect(Collectors.toList());
     }
 
+    @Deprecated
     private List<FileInfo> getInfoList(List<String> ids) {
         return infoList.stream().filter(it -> ids.contains(it.getId())).collect(Collectors.toList());
     }
@@ -139,6 +141,16 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    public void archive() {
+
+    }
+
+    @Override
+    public void base64() {
+
+    }
+
+    @Override
     public void downloadArchive(HttpServletRequest request, HttpServletResponse response,
                                 String archiveName, Stream<FileInfo> conditions) {
         try (OutputStream os = response.getOutputStream()) {
@@ -213,13 +225,4 @@ public class FileServiceImpl implements FileService {
         }
     }
 
-    @Override
-    public void archive() {
-
-    }
-
-    @Override
-    public void base64() {
-
-    }
 }
