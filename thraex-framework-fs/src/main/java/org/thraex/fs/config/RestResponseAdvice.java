@@ -28,6 +28,9 @@ public class RestResponseAdvice implements ResponseBodyAdvice {
             Class selectedConverterType,
             ServerHttpRequest request,
             ServerHttpResponse response) {
+        if (body instanceof Result || body instanceof String) {
+            return body;
+        }
         return new Result<>().ok(body);
     }
 

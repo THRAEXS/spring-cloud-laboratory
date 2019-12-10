@@ -19,21 +19,21 @@ public class Result<T> {
     }
 
     public Result ok() {
-        return new Result();
+        return this;
     }
 
     public Result ok(T data) {
-        return new Result(data);
+        this.setData(data);
+        return this;
     }
 
     public Result fail() {
-        return new Result();
+        return this;
     }
 
     public Result fail(String message) {
-        Result result = new Result();
-        result.setMessage(message);
-        return result;
+        this.setMessage(message);
+        return this;
     }
 
     public Integer getCode() {

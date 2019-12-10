@@ -20,6 +20,7 @@ import org.thraex.fs.base.service.FileService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -31,6 +32,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -105,6 +107,22 @@ public class FileController {
                 e.printStackTrace();
             }
         });
+    }
+
+    @GetMapping("base64/{id}")
+    public String base64(@PathVariable String id) {
+        return Optional.ofNullable(fileService.find(id))
+                .map(it -> {
+                    String result = null;
+                    try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+                        Files.copy(Paths.get(it.getPath()), baos);
+                        result = Base64.getEncoder().encodeToString(baos.toByteArray());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    return result;
+                }).orElse(null);
     }
 
     @RequestMapping(
