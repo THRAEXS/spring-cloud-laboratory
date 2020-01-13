@@ -21,8 +21,8 @@
         <developer>
             <name>鬼王</name>
             <email>THRAEX@aliyun.com</email>
-            <organization>${organization.name}</organization>
-            <organizationUrl>${organization.url}</organizationUrl>
+            <organization>${project.organization.name}</organization>
+            <organizationUrl>${project.organization.url}</organizationUrl>
         </developer>
     </developers>
 
@@ -45,10 +45,10 @@
         <module>thraex-platform-config</module>
         <module>thraex-platform-gateway</module>
         <module>thraex-framework-admin</module>
-        <module>thraex-business-order</module>
         <module>thraex-framework-fs</module>
-        <module>thraex-business-manual</module>
         <module>thraex-framework-base</module>
+        <module>thraex-business-order</module>
+        <module>thraex-business-manual</module>
     </modules>
 
     <dependencyManagement>
