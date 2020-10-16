@@ -1,0 +1,7 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.thraex.admin.eureka.ManualEurekaClientAutoConfiguration,\
+org.thraex.admin.eureka.ManualEurekaDiscoveryClientConfiguration
+
+org.springframework.cloud.bootstrap.BootstrapConfiguration=\
+org.thraex.admin.eureka.config.ManualEurekaDiscoveryClientConfigServiceBootstrapConfiguration
+

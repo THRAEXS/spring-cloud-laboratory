@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: thraex-business-manual
+
+server:
+  port: 8092
+
+thraex:
+  keyword: 鬼王
+
+
+eureka:
+  instance:
+    instanceId: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+    preferIpAddress: true
+  client:
+    serviceUrl:
+      defaultZone: http://${spring.cloud.client.ip-address}:8761/eureka/
+    thraex:
+      serviceUrl:
+        defaultZone:
+          - http://${spring.cloud.client.ip-address}:8762/eureka/
+          - http://${spring.cloud.client.ip-address}:8763/eureka/
+#logging:
+#  level:
+#    org.framework: debug
+#    com.netflix: debug
+
+
+
