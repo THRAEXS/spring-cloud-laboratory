@@ -21,8 +21,8 @@
         <developer>
             <name>鬼王</name>
             <email>THRAEX@aliyun.com</email>
-            <organization>${organization.name}</organization>
-            <organizationUrl>${organization.url}</organizationUrl>
+            <organization>${project.organization.name}</organization>
+            <organizationUrl>${project.organization.url}</organizationUrl>
         </developer>
     </developers>
 
@@ -41,13 +41,14 @@
     </parent>
 
     <modules>
-        <module>esp-platform-registry</module>
-        <module>esp-platform-config</module>
-        <module>esp-platform-gateway</module>
-        <module>esp-framework-admin</module>
-        <module>esp-business-order</module>
-        <module>esp-framework-fs</module>
-        <module>esp-business-manual</module>
+        <module>thraex-platform-registry</module>
+        <module>thraex-platform-config</module>
+        <module>thraex-platform-gateway</module>
+        <module>thraex-framework-admin</module>
+        <module>thraex-framework-fs</module>
+        <module>thraex-framework-base</module>
+        <module>thraex-business-order</module>
+        <module>thraex-business-manual</module>
     </modules>
 
     <dependencyManagement>
@@ -59,6 +60,68 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.10</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.62</version>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>5.1.40</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>2.1.1</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <!--<executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                    <mainClass>${startup.main}</mainClass>
+                </configuration>-->
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${docker.plugin.version}</version>
+                <configuration>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <dockerDirectory>${project.basedir}</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.mybatis.generator</groupId>-->
+                <!--<artifactId>mybatis-generator-maven-plugin</artifactId>-->
+                <!--<version>1.4.0</version>-->
+            <!--</plugin>-->
+        </plugins>
+    </build>
 </project>
